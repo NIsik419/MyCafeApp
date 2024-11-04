@@ -1,0 +1,81 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+header h1 {
+    font-size: 1.5rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 5px;
+    width: 200px;
+}
+
+.search-bar button {
+    padding: 5px;
+}
+
+/* 추천 카페 섹션 */
+.recommend-section, .nearby-section, .keyword-section {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cafe-card {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.cafe-card img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+
+.cafe-info h3 {
+    margin: 0;
+}
+
+.cafe-info p {
+    margin: 5px 0;
+}
+
+/* 키워드 버튼 */
+.keyword-section .keywords {
+    display: flex;
+    gap: 10px;
+}
+
+.keyword-btn {
+    padding: 8px 12px;
+    background-color: #eee;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 하단 네비게이션 바 */
+footer nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+}
+

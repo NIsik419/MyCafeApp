@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripClone Navigation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="navbar-content">
+        <!-- 메뉴 버튼 -->
+        <button type="button" class="menu-button" title="메뉴" aria-label="메뉴">
+            <svg viewBox="0 0 24 24" width="1em" height="1em">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M21 7.75H3v-1.5h18zm0 5H3v-1.5h18zm0 5H3v-1.5h18z"></path>
+            </svg>
+        </button>
+
+        <!-- 로고 -->
+        <div class="logo">
+            <a href="/">
+                <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_logoset_solid_green.svg" alt="Tripadvisor Logo" class="logo-main">
+                <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="Tripadvisor Text Logo" class="logo-text">
+            </a>
+        </div>
+
+        <!-- 로그인 버튼 -->
+        <div class="login-section">
+            <a href="/login" class="login-button">로그인</a>
+        </div>
+    </div>
+
+    <!-- 검색 바 -->
+   
+</header>
+<div class="search-container">
+    <form role="search" action="/Search" class="search-form">
+        <input type="hidden" name="searchSessionId" value="00196cb690792e84.ssid">
+        <input type="hidden" name="searchNearby" value="false">
+
+        <!-- 검색 버튼 -->
+        <button type="submit" class="search-button" title="검색" aria-label="검색">
+            <svg viewBox="0 0 24 24" width="24px" height="24px">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.12 4.14a5.99 5.99 0 1 0 0 11.98 5.99 5.99 0 0 0 0-11.98m-7.49 5.99a7.49 7.49 0 1 1 13.299 4.728L21.37 20.3l-1.06 1.061-5.44-5.44A7.49 7.49 0 0 1 2.63 10.13"></path>
+            </svg>
+        </button>
+
+        <!-- 검색 입력 필드 -->
+        <input type="search" name="q" class="search-input" placeholder="여행지, 즐길거리, 호텔 등" 
+               aria-label="검색" aria-controls="typeahead_results" aria-autocomplete="list" required>
+
+        <!-- 추가 검색 버튼 -->
+        <button class="extra-search-button" type="button">
+            <span>검색</span>
+        </button>
+    </form>
+</div>
+<div class="highlight-container">
+    <div class="highlight-content">
+        <h2 class="highlight-title">2024년 최고의 음식점</h2>
+        <p class="highlight-description">Travellers' Choice 어워드 베스트 오브 베스트 수상 장소로 여행을 계획하세요.</p>
+        <a href="/TravelersChoice-Restaurants" class="highlight-button">목록 보기</a>
+    </div>
+</div>
+
+<!-- 카테고리 링크 -->
+<div class="categories">
+    <a href="#" class="category-link">호텔</a>
+    <a href="#" class="category-link">즐길거리</a>
+    <a href="#" class="category-link">음식점</a>
+    <a href="#" class="category-link">항공권</a>
+</div>
+<div class="recommendation-container">
+    <div class="recommendation-header">
+        <h2>수상 경력에 빛나는 식사를 드셔 보세요</h2>
+        <p>2024 Traveller’s Choice 어워드 베스트 오브 베스트 음식점</p>
+    </div>
+
+    <!-- 추천 슬라이더 -->
+    <div class="recommendation-slider">
+        <!-- 이전 버튼 -->
+        <button class="slider-btn prev-btn" aria-label="이전">
+            <svg viewBox="0 0 24 24" width="24px" height="24px">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="m10.736 20.792-8.58-8.58 8.58-8.582 1.06 1.061-6.77 6.77h16.08v1.5H5.026l6.77 6.77z"></path>
+            </svg>
+        </button>
+
+        <!-- 추천 리스트 -->
+        <div class="recommendation-list">
+            <!-- 추천 아이템 -->
+            <a href="#" class="recommendation-item">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/6d/e6/26/caption.jpg" alt="고급 레스토랑" />
+                <div class="recommendation-text">고급 레스토랑</div>
+            </a>
+            <a href="#" class="recommendation-item">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/6d/e6/06/caption.jpg" alt="저녁 식사 데이트" />
+                <div class="recommendation-text">저녁 식사 데이트</div>
+            </a>
+            <a href="#" class="recommendation-item">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/6d/e6/5e/caption.jpg" alt="캐주얼 다이닝" />
+                <div class="recommendation-text">캐주얼 다이닝</div>
+            </a>
+            <a href="#" class="recommendation-item">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/6d/e6/df/caption.jpg" alt="숨겨진 보석 같은 곳" />
+                <div class="recommendation-text">숨겨진 보석 같은 곳</div>
+            </a>
+            <a href="#" class="recommendation-item">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/6d/e7/3c/caption.jpg" alt="비건 및 채식" />
+                <div class="recommendation-text">비건 및 채식</div>
+            </a>
+        </div>
+
+        <!-- 다음 버튼 -->
+        <button class="slider-btn next-btn" aria-label="다음">
+            <svg viewBox="0 0 24 24" width="24px" height="24px">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="m12.631 3.632 8.578 8.577-8.58 8.58-1.062-1.06 6.77-6.77-16.075.004v-1.5l16.076-.004-6.767-6.767z"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+</body>
+
+
+</html>
+<script>
+    document.querySelector('.next-btn').addEventListener('click', () => {
+        document.querySelector('.recommendation-list').scrollBy({
+            left: 220,
+            behavior: 'smooth'
+        });
+    });
+
+    document.querySelector('.prev-btn').addEventListener('click', () => {
+        document.querySelector('.recommendation-list').scrollBy({
+            left: -220,
+            behavior: 'smooth'
+        });
+    });
+</script>

@@ -1,30 +1,37 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // 검색 버튼 클릭 이벤트
-    document.getElementById("search-btn").addEventListener("click", function () {
-        const query = document.querySelector(".search-bar input").value;
-        alert(`'${query}'로 검색합니다.`);
-        // AJAX를 이용해 검색 결과 가져오기 로직을 추가할 수 있음
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    const reviewsSection = document.querySelector(".reviews-section");
 
-    // 추천 키워드 버튼 클릭 이벤트
-    const keywordButtons = document.querySelectorAll(".keyword-btn");
-    keywordButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const keyword = button.textContent;
-            alert(`'${keyword}' 카페를 추천합니다.`);
-            // AJAX 요청으로 해당 키워드의 추천 카페 리스트를 가져오는 로직 추가 가능
-        });
-    });
+    // 예시 리뷰 데이터
+    const reviews = [
+        {
+            title: "멋진 카페 투어",
+            text: "이 카페는 훌륭한 분위기와 커피를 제공합니다. 꼭 방문해보세요!",
+            rating: "★★★★☆",
+            image: "https://via.placeholder.com/100"
+        },
+        {
+            title: "아름다운 해변",
+            text: "해변가에서 즐기는 산책은 정말 멋져요. 추천합니다!",
+            rating: "★★★★★",
+            image: "https://via.placeholder.com/100"
+        }
+    ];
 
-    // 내 주변 카페 찾기 버튼 클릭 이벤트
-    document.getElementById("nearby-btn").addEventListener("click", function () {
-        alert("내 주변 카페를 검색합니다.");
-        // 위치 기반 API를 사용해 주변 카페 리스트를 가져오는 로직 추가
-    });
+    // 리뷰 카드 생성
+    reviews.forEach(review => {
+        const reviewCard = document.createElement("div");
+        reviewCard.classList.add("review-card");
 
-    // 지도로 보기 버튼 클릭 이벤트
-    document.getElementById("map-btn").addEventListener("click", function () {
-        alert("지도로 주변 카페를 표시합니다.");
-        // 지도로 전환하는 기능 추가 가능
+        reviewCard.innerHTML = `
+            <img src="${review.image}" alt="리뷰 이미지" class="review-image">
+            <div class="review-info">
+                <h3 class="review-title">${review.title}</h3>
+                <p class="review-text">${review.text}</p>
+                <div class="review-rating">평점: ${review.rating}</div>
+            </div>
+        `;
+
+        reviewsSection.appendChild(reviewCard);
     });
 });
+

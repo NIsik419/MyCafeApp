@@ -1,6 +1,44 @@
 let map;
 let openInfoWindow = null;
+async function searchCafes(event) {
+    event.preventDefault();  // 폼 제출 막기
 
+    const query = document.getElementById('searchInput').value.toLowerCase();  // 입력된 검색어
+    const response = await fetch('cafes.json');
+    const cafes = await response.json();
+    const listContainer = document.querySelector('.recommendation-list');  // 추천 리스트 컨테이너
+
+    // 검색된 결과만 필터링
+    const filteredCafes = cafes.filter(cafe => {
+        return cafe.이름.toLowerCase().includes(query) ||
+               cafe.카테고리.toLowerCase().includes(query) ||
+               cafe.도로명주소.toLowerCase().includes(query) ||
+               cafe.부가설명.toLowerCase().includes(query);
+    });
+
+    // 필터링된 카페 목록 출력
+    listContainer.innerHTML = '';  // 기존 리스트 초기화
+    if (filteredCafes.length > 0) {
+        filteredCafes.forEach(cafe => {
+            const cafeCard = document.createElement("div");
+            cafeCard.classList.add("cafe-card");
+            cafeCard.innerHTML = `
+                <img src="${cafe.썸네일이미지URL}" alt="${cafe.이름}">
+                <div class="cafe-info">
+                    <h3>${cafe.이름}</h3>
+                    <p>주소: ${cafe.도로명주소}</p>
+                    <p>사장님 소개: ${cafe.부가설명}</p>
+                </div>
+            `;
+            listContainer.appendChild(cafeCard);
+        });
+    } else {
+        listContainer.innerHTML = '<p>검색된 결과가 없습니다.</p>';
+    }
+}
+
+// 검색이 끝날 때마다 자동으로 필터링
+document.getElementById('searchInput').addEventListener('input', searchCafes);
 // 구글 지도 초기화 함수
 function initMap() {
     // 지도 옵션 설정

@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TripClone Navigation</title>
+    <title>My Cafe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="navbar">
     <div class="navbar-content">
-        <!-- 메뉴 버튼 -->
-        <button type="button" class="menu-button" title="메뉴" aria-label="메뉴">
-            <svg viewBox="0 0 24 24" width="1em" height="1em">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M21 7.75H3v-1.5h18zm0 5H3v-1.5h18zm0 5H3v-1.5h18z"></path>
-            </svg>
-        </button>
+        <div class="menu-logo-container">
+            <!-- 메뉴 버튼 -->
+            <button type="button" class="menu-button" title="메뉴" aria-label="메뉴">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21 7.75H3v-1.5h18zm0 5H3v-1.5h18zm0 5H3v-1.5h18z"></path>
+                </svg>
+            </button>
 
-        <!-- 로고 -->
-        <div class="logo">
-            <a href="/">
-               
-                <img src="https://static.tacdn.com/img2/brand_refresh/Tripadvisor_lockup_horizontal_secondary_registered.svg" alt="Tripadvisor Text Logo" class="logo-text">
-            </a>
+            <!-- 로고 -->
+            <div class="logo">
+                <a href="index.html">
+                    <img src="main_logo.png" alt="MyCafe Logo" class="logo-text">
+                </a>
+            </div>
         </div>
 
         <!-- 로그인 버튼 -->
@@ -31,13 +32,14 @@
         </div>
     </div>
 
-    <!-- 검색 바 -->
+
    
 </header>
+<!-- 검색 바 -->
 <div class="search-container">
-    <form role="search" action="/Search" class="search-form">
-        <input type="hidden" name="searchSessionId" value="00196cb690792e84.ssid">
-        <input type="hidden" name="searchNearby" value="false">
+    <form role="search" class="search-form" onsubmit="searchCafes(event)">
+        <input type="search" name="q" id="searchInput" class="search-input" placeholder="카페를 검색하세요" 
+               aria-label="검색" aria-autocomplete="list" required>
 
         <!-- 검색 버튼 -->
         <button type="submit" class="search-button" title="검색" aria-label="검색">
@@ -45,17 +47,9 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10.12 4.14a5.99 5.99 0 1 0 0 11.98 5.99 5.99 0 0 0 0-11.98m-7.49 5.99a7.49 7.49 0 1 1 13.299 4.728L21.37 20.3l-1.06 1.061-5.44-5.44A7.49 7.49 0 0 1 2.63 10.13"></path>
             </svg>
         </button>
-
-        <!-- 검색 입력 필드 -->
-        <input type="search" name="q" class="search-input" placeholder="여행지, 즐길거리, 호텔 등" 
-               aria-label="검색" aria-controls="typeahead_results" aria-autocomplete="list" required>
-
-        <!-- 추가 검색 버튼 -->
-        <button class="extra-search-button" type="button">
-            <span>검색</span>
-        </button>
     </form>
 </div>
+
 <div class="highlight-container">
     <div class="highlight-content">
         <h2 class="highlight-title">2024년 최고의 음식점</h2>
@@ -124,6 +118,19 @@
 
 
 </html>
+<script src="search.js"></script>
+<script src="app.js"></script>
+<script>
+    // 검색 이벤트 처리 함수
+    function searchCafes(event) {
+        event.preventDefault();  // 기본 폼 제출을 막음
+
+        const query = document.getElementById("searchInput").value;  // 검색어 가져오기
+
+        // 검색어를 URL 쿼리 파라미터로 추가하여 다른 페이지로 이동
+        window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+    }
+</script>
 <script>
     document.querySelector('.next-btn').addEventListener('click', () => {
         document.querySelector('.recommendation-list').scrollBy({
@@ -138,5 +145,6 @@
             behavior: 'smooth'
         });
     });
+    
 </script>
-=======
+

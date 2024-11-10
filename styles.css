@@ -6,6 +6,7 @@ body {
     -ms-overflow-style: none;
 }
 
+
 ::-webkit-scrollbar {
  display: none;
 }
@@ -30,6 +31,21 @@ body {
     align-items: center;
     gap: 10px;
 }
+#search-results {
+    float: left;
+    position: absolute;  /* 화면에 고정 */
+    top: 0px;  /* 네비게이션 바 아래에 위치 */
+    left: 0;  /* 화면의 왼쪽 끝에 딱 붙게 */
+    z-index: 3;  /* 맵 위에 표시되도록 설정 */
+    background-color: rgba(255, 255, 255, 0.8); /* 배경을 약간 투명하게 설정 */
+    padding: 20px;  
+    max-height: 80vh;  
+    width: 50%;  
+    overflow-y: auto; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
 
 
 /* 카드 스타일 */
@@ -86,58 +102,35 @@ body {
 }
 
 #map {
-    height: 400px;
-    width: 100%;
-    margin-bottom: 20px;
-}
-/* 지도와 추천 카드 스타일 */
-#map {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100vh; /* 전체 화면을 덮는 높이 */
-    z-index: 1; /* 지도 레이어를 낮게 설정 */
+    width: 100%;   /* 화면 너비를 100%로 설정 */
+    height: 120vh; /* 화면 높이를 100vh로 설정하여 전체 화면을 덮도록 함 */
+    z-index: 1;    /* 지도 레이어를 낮게 설정 */
+    margin: 0;     /* 여백을 0으로 설정 */
 }
 
-#search-results {
-    position: absolute;
-    top: 20px; /* 카드가 맵 위로 올 수 있도록 설정 */
-    left: 20px;
-    right: 20px;
-    z-index: 2; /* 카드를 맵 위에 표시 */
-    background-color: rgba(255, 255, 255, 0.8); /* 배경 색을 약간 투명하게 */
-    padding: 20px;
-    max-height: 500vh; /* 최대 높이를 70vh로 제한 */
-    max-width:80vh;
-    overflow-y: auto; /* 세로 스크롤 추가 */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 카드 컨테이너에 그림자 추가 */
-}
 
-.cafe-card {
+/* 네비게이션 바 스타일 */
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
     display: flex;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    transition: transform 0.3s ease; /* 호버 효과 */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2; /* 항상 상단에 표시 */
 }
-
-.cafe-card:hover {
-    transform: scale(1.05); /* 호버 시 크기 확대 효과 */
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
 }
-
-.cafe-card img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 15px;
-}
-
-.cafe-info {
-    flex: 1;
-}
-

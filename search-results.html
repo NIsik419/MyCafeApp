@@ -4,28 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>검색 결과</title>
-    <link rel="stylesheet" href="styles.css">
+   
     <link rel="stylesheet" href="style.css">
-    
+    <style>/* 검색 컨테이너 스타일 */
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        /* 검색창 폼 스타일 */
+        .search-form {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 10px; /* 검색 결과와 검색창 사이 간격 */
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .search-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        /* 검색 결과 스타일 */
+        .results-container {
+            
+            width: 90%;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 10px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        </style>
 </head>
 <body>
 <div id="navbar"></div> 
 <h2>검색 결과</h2>
-<div class="search-container">
-    <form role="search" class="search-form" onsubmit="searchCafes(event)">
-        <input type="search" name="q" id="searchInput" class="search-input" placeholder="카페를 검색하세요" aria-label="검색" required>
-        <button type="submit" class="search-button" aria-label="검색">
-            검색
-        </button>
-    </form>
-</div>
-<div id="search-results"></div> <!-- 검색 결과 출력 공간 -->
 
-<div id="map"></div> <!-- 구글 맵을 배경으로 사용 -->
+
+    <!-- 검색창 -->
+    <div class="search-container">
+        <form role="search" class="search-form" onsubmit="searchCafes(event)">
+            <input type="search" name="q" id="searchInput" class="search-input" placeholder="카페를 검색하세요" aria-label="검색" required>
+            <button type="submit" class="search-button" aria-label="검색">검색</button>
+        </form>
+        <div id="search-results" class="results-container"></div>
+    </div>
+
+    <!-- 검색 결과 출력 공간 -->
+    
+
+
+<!-- 구글 맵을 배경으로 사용 -->
+<div id="map"></div> 
 
 <script src="search.js"></script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRULQp10mu7oBZWB8IQOuVT-TNQHZgf1A&callback=initMap" defer></script> <!-- 구글 지도 API 스크립트 -->
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRULQp10mu7oBZWB8IQOuVT-TNQHZgf1A&callback=initMap" defer></script>
 </body>
 </html>

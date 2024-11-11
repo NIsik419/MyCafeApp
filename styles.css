@@ -31,23 +31,6 @@ body {
     align-items: center;
     gap: 10px;
 }
-#search-results {
-    float: left;
-    position: absolute;  /* 화면에 고정 */
-    top: 0px;  /* 네비게이션 바 아래에 위치 */
-    left: 0;  /* 화면의 왼쪽 끝에 딱 붙게 */
-    z-index: 3;  /* 맵 위에 표시되도록 설정 */
-    background-color: rgba(255, 255, 255, 0.8); /* 배경을 약간 투명하게 설정 */
-    padding: 20px;  
-    max-height: 80vh;  
-    width: 50%;  
-    overflow-y: auto; 
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-}
-
-
-
 /* 카드 스타일 */
 .cafe-card {
     display: flex;
@@ -134,3 +117,5 @@ body {
     width: 100%;
     max-width: 1200px;
 }
+
+

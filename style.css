@@ -278,33 +278,7 @@ body {
     right: -40px;
 }
 
-/* 추천 리스트 스타일 */
-.recommendation-list {
-    display: flex;
-    overflow: hidden;
-    scroll-behavior: smooth;
-}
 
-.recommendation-item {
-    min-width: 200px;
-    max-width: 200px;
-    margin: 0 8px;
-    text-align: center;
-    text-decoration: none;
-    color: #333;
-}
-
-.recommendation-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.recommendation-text {
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: bold;
-}
 /* 컨테이너 스타일 */
 .highlight-container {
     display: flex;

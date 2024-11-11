@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>검색 결과</title>
    
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <style>/* 검색 컨테이너 스타일 */
         .search-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
+            align-items: center; /* 중앙 정렬 */
+            width: 90%;
             max-width: 600px;
-            margin: 0 auto;
-            padding: 10px;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #f9f9f9;
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* 검색창 폼 스타일 */
         .search-form {
             display: flex;
             width: 100%;
-            align-items: center;
-            margin-bottom: 10px; /* 검색 결과와 검색창 사이 간격 */
+            margin-bottom: 10px; /* 검색 결과와 간격 */
         }
         
         .search-input {
@@ -36,7 +36,7 @@
         }
         
         .search-button {
-            padding: 10px 15px;
+            padding: 10px 20px;
             font-size: 16px;
             background-color: #007bff;
             color: #fff;
@@ -47,16 +47,17 @@
         
         /* 검색 결과 스타일 */
         .results-container {
-            
-            width: 90%;
+            width: 90%; /* 검색 컨테이너와 너비 통일 */
+            max-width: 600px;
             max-height: 500px;
             overflow-y: auto;
-            margin-top: 10px;
             background-color: #ffffff;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        
         </style>
 </head>
 <body>
@@ -64,13 +65,14 @@
 <h2>검색 결과</h2>
 
 
-    <!-- 검색창 -->
     <div class="search-container">
         <form role="search" class="search-form" onsubmit="searchCafes(event)">
-            <input type="search" name="q" id="searchInput" class="search-input" placeholder="카페를 검색하세요" aria-label="검색" required>
-            <button type="submit" class="search-button" aria-label="검색">검색</button>
+            <input type="search" id="searchInput" class="search-input" placeholder="카페를 검색하세요" required>
+            <button type="submit" class="search-button">검색</button>
         </form>
-        <div id="search-results" class="results-container"></div>
+        <div id="search-results" class="results-container">
+            <!-- 검색 결과가 여기에 표시됩니다 -->
+        </div>
     </div>
 
     <!-- 검색 결과 출력 공간 -->
@@ -81,6 +83,6 @@
 <div id="map"></div> 
 
 <script src="search.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRULQp10mu7oBZWB8IQOuVT-TNQHZgf1A&callback=initMap" defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR1iy8x5iI4tXavnNJZ3nIR6jy5ObSI3k&callback=initMap" defer></script>
 </body>
 </html>

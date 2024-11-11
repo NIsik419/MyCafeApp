@@ -68,7 +68,7 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
                             map: map,
                             title: cafe.이름
                         });
-
+                        
                         const infoWindow = new google.maps.InfoWindow({
                             content: `<div><strong>${cafe.이름}</strong><br>주소: ${cafe.도로명주소}<br>사장님 소개: ${cafe.부가설명}</div>`
                         });

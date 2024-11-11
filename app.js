@@ -3,16 +3,22 @@ let openInfoWindow = null;
 let markers = [];
 let activeMarker = null;
 
-// 인포윈도우 생성 함수
 function createInfoWindowContent(cafe) {
     const safeId = cafe.이름.replace(/[^a-zA-Z0-9]/g, '-');
-    console.log('Creating InfoWindow content for:', cafe.이름);
     return `
         <div class="info-window-content" id="info-window-${safeId}">
             <div style="padding: 12px; max-width: 300px;">
                 <h3>${cafe.이름}</h3>
                 <p>주소: ${cafe.도로명주소}</p>
-                <p>${cafe.부가설명}</p>
+                <p style="
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: 4.5em; /* 대략 3줄 높이 */
+                    line-height: 1.5em;
+                ">${cafe.부가설명}</p>
                 ${cafe.상세페이지URL ? `
                     <a href="${cafe.상세페이지URL}" 
                        target="_blank" 
@@ -25,6 +31,7 @@ function createInfoWindowContent(cafe) {
         </div>
     `;
 }
+
 
 // 카페 카드 생성 함수
 function createCafeCard(cafe) {

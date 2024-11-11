@@ -190,14 +190,16 @@ body {
 .category-link:hover {
     color: #ff974b;
 }
-/* 컨테이너 스타일 */
+/* 메인 추천 컨테이너 스타일 */
 .recommendation-container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
+    padding: 20px 0;
 }
 
+/* 헤더 스타일 */
 .recommendation-header h2 {
     font-size: 24px;
     color: #333;
@@ -207,14 +209,56 @@ body {
 .recommendation-header p {
     color: #666;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
-/* 슬라이더 스타일 */
+/* 슬라이더 컨테이너 스타일 */
 .recommendation-slider {
     display: flex;
     align-items: center;
-    position: relative;
+    gap: 15px;
+    overflow-x: auto; /* 슬라이더가 가로 스크롤 가능하도록 설정 */
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+    margin-top: 20px;
 }
+
+/* 추천 아이템 스타일 */
+.recommendation-item {
+    flex: 0 0 auto;
+    width: 200px; /* 추천 아이템 고정 너비 */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #000;
+    transition: transform 0.3s ease;
+}
+
+/* 이미지 스타일 */
+.recommendation-item img {
+    width: 100%;
+    height: 150px; /* 이미지 고정 높이 */
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 텍스트 스타일 */
+.recommendation-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 추천 아이템 호버 효과 */
+.recommendation-item:hover {
+    transform: translateY(-5px);
+}
+
+
+
 
 /* 슬라이더 버튼 스타일 */
 .slider-btn {

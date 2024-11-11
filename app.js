@@ -89,17 +89,15 @@ function addCafeToMap(cafe) {
     return { marker, cafeCard };
 }
 
-// 추천 목록을 열고 닫는 함수
+// 추천 목록을 열고 닫는 토글 함수
 function toggleRecommendationList() {
     const recommendationSection = document.getElementById('cafe-list');
     const toggleButton = document.getElementById('toggle-button');
     
-    if (recommendationSection.classList.contains('show-list')) {
-        recommendationSection.classList.remove('show-list');
+    if (recommendationSection.style.display === 'block') {
         recommendationSection.style.display = 'none';
         toggleButton.textContent = '추천 목록 보기';
     } else {
-        recommendationSection.classList.add('show-list');
         recommendationSection.style.display = 'block';
         toggleButton.textContent = '목록 닫기';
     }

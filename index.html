@@ -5,61 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Cafe</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                padding: 20px;
+            }
+            
+
+            h2 {
+                font-size: 64px; /* 원하는 글자 크기 */
+                font-weight: bold;
+                color: #0a0a0a; /* 텍스트 색상 */
+                margin-top: 90px; /* 상단 여백 */
+                text-align: center;
+            }
+
+            .slider-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            .slider {
+                display: flex;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                padding: 10px;
+                gap: 20px;
+            }
+
+            .slider::-webkit-scrollbar {
+                display: none;
+            }
+
+            .slider-btn {
+                background-color: #ff6f61;
+                color: white;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                border-radius: 50%;
+                font-size: 18px;
+            }
+
+            .cafe-card {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 250px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+
+            .cafe-card img {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+                border-radius: 10px;
+            }
+
+            .cafe-info {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .cafe-info h3 {
+                margin: 5px 0;
+                font-size: 18px;
+            }
+
+            .rating {
+                color: #ff6f61;
+                font-weight: bold;
+            }
+
+            .popular-menu {
+                font-size: 14px;
+                color: gray;
+            }
+
+            .icon-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 10px;
+                font-size: 14px;
+                color: #888;
+            }
+
+    </style>
 </head>
 <body>
-
-<header class="navbar">
-    <div class="navbar-content">
-        <div class="menu-logo-container">
-            <!-- 메뉴 버튼 -->
-            <button type="button" class="menu-button" title="메뉴" aria-label="메뉴">
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M21 7.75H3v-1.5h18zm0 5H3v-1.5h18zm0 5H3v-1.5h18z"></path>
-                </svg>
-            </button>
-
-            <!-- 로고 -->
-            <div class="logo">
-                <a href="index.html">
-                    <img src="image/main_logo.png" alt="MyCafe Logo" class="logo-text">
-                </a>
-            </div>
-        </div>
-
-        <!-- 로그인 버튼 -->
-        <div class="login-section">
-            <a href="/login" class="login-button">로그인</a>
-        </div>
+    <div id="navbar"></div>
+    <div class="video-container">
+        <video autoplay muted loop id="background-video">
+            <source src="202004-916894674_large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 
-
-   
-</header>
-<!-- 검색 바 -->
-<div class="search-container">
-    <form role="search" class="search-form" onsubmit="searchCafes(event)">
-        <input type="search" name="q" id="searchInput" class="search-input" placeholder="카페를 검색하세요" 
-               aria-label="검색" aria-autocomplete="list" required>
-
-        <!-- 검색 버튼 -->
-        <button type="submit" class="search-button" title="검색" aria-label="검색">
-            <svg viewBox="0 0 24 24" width="24px" height="24px">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.12 4.14a5.99 5.99 0 1 0 0 11.98 5.99 5.99 0 0 0 0-11.98m-7.49 5.99a7.49 7.49 0 1 1 13.299 4.728L21.37 20.3l-1.06 1.061-5.44-5.44A7.49 7.49 0 0 1 2.63 10.13"></path>
-            </svg>
-        </button>
-    </form>
-</div>
-
-<div class="highlight-container">
-    <div class="highlight-content">
-        <h2 class="highlight-title">2024년 최고의 카페</h2>
-        <p class="highlight-description"></p>
-        <a href="recommend.html" class="highlight-button">목록 보기</a>
+ 
+    <div class="content">
+        <!-- 제목 -->
+        <h2 class="main-title">어디로 가시나요?</h2>
+        
+        <!-- 검색 바 -->
+        <div class="search-container">
+            <form class="search-form">
+                <button type="button" class="search-icon-button">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M10 2a8 8 0 015.93 13.39l4.34 4.34-1.42 1.42-4.34-4.34A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"></path>
+                    </svg>
+                </button>
+                <input type="text" class="search-input" placeholder="카페를 검색하세요">
+                <button type="submit" class="search-button">검색</button>
+            </form>
+        </div>
     </div>
-</div>
-
-
-
 
     <!-- 추천 슬라이더 -->
     <div class="recommendation-slider">
@@ -101,21 +168,18 @@
                 </a>
             </div>
         </div>
-        
-
-        <!-- 다음 버튼 -->
-        <button class="slider-btn next-btn" aria-label="다음">
-            <svg viewBox="0 0 24 24" width="24px" height="24px">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="m12.631 3.632 8.578 8.577-8.58 8.58-1.062-1.06 6.77-6.77-16.075.004v-1.5l16.076-.004-6.767-6.767z"></path>
-            </svg>
-        </button>
     </div>
+        <h2>당신을 위한 HOT 매장 추천</h2>
+        <div class="slider-container">
+            <button class="slider-btn prev-btn" onclick="scrollLeft()">&#9664;</button>
+            <div class="slider" id="cafe-slider"></div>
+            <button class="slider-btn next-btn" onclick="scrollRight()">&#9654;</button>
+        </div>
+    
 </div>
 
 </body>
-
-
-</html>
+<script src="script.js"></script>
 <script src="search.js"></script>
 <script src="app.js"></script>
 <script>
@@ -129,20 +193,8 @@
         window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
     }
 </script>
-<script>
-    document.querySelector('.next-btn').addEventListener('click', () => {
-        document.querySelector('.recommendation-list').scrollBy({
-            left: 220,
-            behavior: 'smooth'
-        });
-    });
 
-    document.querySelector('.prev-btn').addEventListener('click', () => {
-        document.querySelector('.recommendation-list').scrollBy({
-            left: -220,
-            behavior: 'smooth'
-        });
-    });
-    
-</script>
+</html>
+
+
 

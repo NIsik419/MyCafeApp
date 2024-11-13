@@ -60,7 +60,7 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
                     cafeCard.addEventListener('click', () => {
                         const cafePosition = { lat: cafe.위도, lng: cafe.경도 };
                         map.panTo(cafePosition); // 해당 위치로 지도 이동
-                        map.setZoom(17); // 줌 레벨 설정
+                        map.setZoom(16); // 줌 레벨 설정
 
                         // 해당 위치에 마커와 인포윈도우 표시
                         const marker = new google.maps.Marker({

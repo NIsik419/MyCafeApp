@@ -2,68 +2,70 @@ let map;
 let openInfoWindow = null;
 let markers = [];
 let activeMarker = null;
+let keywordsData = {}; // 키워드를 저장할 객체
 
-function createInfoWindowContent(cafe) {
-    const safeId = cafe.이름.replace(/[^a-zA-Z0-9]/g, '-');
-    return `
-        <div class="info-window-content" id="info-window-${safeId}">
-            <div style="padding: 12px; max-width: 300px;">
-                <h3>${cafe.이름}</h3>
-                <p>주소: ${cafe.도로명주소}</p>
-                <p style="
-                    display: -webkit-box;
-                    -webkit-line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-height: 4.5em; /* 대략 3줄 높이 */
-                    line-height: 1.5em;
-                ">${cafe.부가설명}</p>
-                ${cafe.상세페이지URL ? `
-                    <a href="${cafe.상세페이지URL}" 
-                       target="_blank" 
-                       style="display: inline-block; margin-top: 8px; padding: 8px 16px; 
-                              background-color: #4285f4; color: white; text-decoration: none; 
-                              border-radius: 4px;">
-                        상세 페이지 보기
-                    </a>` : ''}
-            </div>
-        </div>
-    `;
-}
+// 지도 초기화 함수
+async function initMap() {
+    const mapOptions = {
+        center: { lat: 37.6232666, lng: 127.0786027 },
+        zoom: 17
+    };
 
+    try {
+        // 지도 생성
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-// 카페 카드 생성 함수
-function createCafeCard(cafe) {
-    console.log('Creating card for:', cafe.이름);
-    const cafeCard = document.createElement("div");
-    cafeCard.classList.add("cafe-card");
-    cafeCard.innerHTML = `
-        <img src="${cafe.썸네일이미지URL}" alt="${cafe.이름}" onerror="this.src='image/placeholder.png'">
-        <div class="cafe-info">
-            <h3>${cafe.이름}</h3>
-            <p>주소: ${cafe.도로명주소}</p>
-            <p>${cafe.부가설명}</p>
-        </div>
-    `;
-    return cafeCard;
-}
+        // 키워드와 카페 데이터를 비동기로 불러오기
+        await loadKeywords();
+        await loadCafes();
 
-// 마커 클릭 핸들러
-function handleMarkerClick(marker, infoWindow, cafe) {
-    console.log('Marker clicked for:', cafe.이름);
-    if (openInfoWindow) {
-        openInfoWindow.close();
+    } catch (error) {
+        console.error("Error initializing map:", error);
+        document.getElementById('recommendation-list').innerHTML = '<p>카페 데이터를 불러오는 중 오류가 발생했습니다.</p>';
     }
-    infoWindow.open(map, marker);
-    openInfoWindow = infoWindow;
-    map.panTo(marker.getPosition());
 }
 
-// 카페를 지도에 추가
-function addCafeToMap(cafe) {
-    console.log('Adding cafe to map:', cafe.이름);
+// 키워드 데이터 불러오기
+async function loadKeywords() {
+    try {
+        const response = await fetch('keyword.json');
+        const keywords = await response.json();
 
+        // 키워드 데이터를 카페 이름을 기준으로 저장
+        keywords.forEach(keyword => {
+            const cafeName = keyword["0"];
+            const keywordText = keyword["1"];
+            keywordsData[cafeName] = keywordText;
+        });
+
+        console.log('Loaded keywords:', keywordsData);
+    } catch (error) {
+        console.error("Error loading keywords:", error);
+    }
+}
+
+// 카페 데이터 불러오기
+async function loadCafes() {
+    try {
+        const response = await fetch('cafes.json');
+        const cafes = await response.json();
+
+        const listContainer = document.getElementById('recommendation-list');
+        listContainer.innerHTML = '';
+
+        cafes.forEach(cafe => {
+            const { marker, cafeCard } = addCafeToMap(cafe);
+            markers.push(marker);
+            listContainer.appendChild(cafeCard);
+        });
+
+    } catch (error) {
+        console.error("Error loading cafes:", error);
+    }
+}
+
+// 카페를 지도에 추가하고 카드 생성
+function addCafeToMap(cafe) {
     const marker = new google.maps.Marker({
         position: { lat: parseFloat(cafe.위도), lng: parseFloat(cafe.경도) },
         map: map,
@@ -76,17 +78,12 @@ function addCafeToMap(cafe) {
         maxWidth: 300
     });
 
-    // 마커 클릭 이벤트 추가
     marker.addListener('click', () => {
-        console.log('Marker click event triggered for:', cafe.이름);
         handleMarkerClick(marker, infoWindow, cafe);
     });
 
-    // 카페 카드 생성 및 클릭 이벤트 추가
     const cafeCard = createCafeCard(cafe);
-    cafeCard.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Card clicked for:', cafe.이름);
+    cafeCard.addEventListener('click', () => {
         handleMarkerClick(marker, infoWindow, cafe);
         if (window.innerWidth < 768) {
             document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -96,56 +93,62 @@ function addCafeToMap(cafe) {
     return { marker, cafeCard };
 }
 
-// 추천 목록을 열고 닫는 토글 함수
-function toggleRecommendationList() {
-    const recommendationSection = document.getElementById('cafe-list');
-    const toggleButton = document.getElementById('toggle-button');
-    
-    if (recommendationSection.style.display === 'block') {
-        recommendationSection.style.display = 'none';
-        toggleButton.textContent = '추천 목록 보기';
-    } else {
-        recommendationSection.style.display = 'block';
-        toggleButton.textContent = '목록 닫기';
-    }
+// 마커 클릭 핸들러
+function handleMarkerClick(marker, infoWindow, cafe) {
+    if (openInfoWindow) openInfoWindow.close();
+    infoWindow.open(map, marker);
+    openInfoWindow = infoWindow;
+    map.panTo(marker.getPosition());
 }
 
-// 지도 초기화 함수
-async function initMap() {
-    console.log('Initializing map...');
-
-    const mapOptions = {
-        center: { lat: 37.6232666, lng: 127.0786027 },
-        zoom: 17
-    };
-
-    try {
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        console.log('Map initialized successfully');
-
-        const response = await fetch('cafes.json');
-        const cafes = await response.json();
-        console.log('Loaded cafes:', cafes);
-
-        const listContainer = document.getElementById('recommendation-list');
-        listContainer.innerHTML = '';
-
-        cafes.forEach(cafe => {
-            const { marker, cafeCard } = addCafeToMap(cafe);
-            markers.push(marker);
-            listContainer.appendChild(cafeCard);
-        });
-
-    } catch (error) {
-        console.error("Error initializing map:", error);
-        document.getElementById('recommendation-list').innerHTML = '<p>카페 데이터를 불러오는 중 오류가 발생했습니다.</p>';
-    }
+// 인포윈도우 콘텐츠 생성
+function createInfoWindowContent(cafe) {
+    const keyword = keywordsData[cafe.이름] || "키워드 없음";
+    return `
+        <div style="padding: 12px;">
+            <h3>${cafe.이름}</h3>
+            <p>주소: ${cafe.도로명주소}</p>
+            <p>${cafe.부가설명}</p>
+            <p><strong>키워드:</strong> ${keyword}</p>
+        </div>
+    `;
 }
 
-// 페이지 로드 시 추천 목록이 기본적으로 표시되도록 설정
+// 카페 카드 생성 함수
+// 카페 카드 생성 함수
+function createCafeCard(cafe) {
+    const cafeCard = document.createElement("div");
+    cafeCard.classList.add("cafe-card");
+
+    // 키워드 박스 생성 (최대 2개만 표시)
+    const keywordBox = createKeywordBox(cafe);
+
+    // 카페 카드 내용 생성
+    cafeCard.innerHTML = `
+        <div class="cafe-header">
+            <h3>${cafe.이름}</h3>
+            <div class="keyword-box">${keywordBox}</div>
+        </div>
+        <img src="${cafe.썸네일이미지URL || 'image/placeholder.png'}" alt="${cafe.이름}" class="cafe-image" onerror="this.src='image/placeholder.png'">
+        <div class="cafe-info">
+            <p>주소: ${cafe.도로명주소 || "주소 정보 없음"}</p>
+            <p>${cafe.부가설명 || "설명 없음"}</p>
+        </div>
+    `;
+    return cafeCard;
+}
+
+// 키워드 박스 생성 함수 (최대 2개 표시)
+function createKeywordBox(cafe) {
+    const keyword = keywordsData[cafe.이름] || "";
+    if (!keyword) return '';
+
+    // 키워드를 쉼표로 구분하고 최대 2개만 표시
+    const keywordsArray = keyword.split(',').map(kw => kw.trim()).slice(0, 2);
+    return keywordsArray.map(kw => `<button class="keyword-button">${kw}</button>`).join(' ');
+}
+
+// 페이지 로드 시 지도 초기화
 window.onload = () => {
-    document.getElementById('cafe-list').style.display = 'block';
+    initMap();
 };
-
-// 전역으로 initMap 함수 등록
-window.initMap = initMap;

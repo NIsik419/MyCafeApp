@@ -1,37 +1,118 @@
 
-/* 메뉴 버튼 스타일 */
-.menu-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-.menu-button svg {
-    fill: #333;
-    width: 24px;
-    height: 24px;
+
+/* 네비게이션 바 스타일 */
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 60px;
 }
 
-/* 로고 스타일 */
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+/* 로고 컨테이너 스타일 */
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 8px; /* 로고와 텍스트 사이 간격 */
 }
+
+/* 로고 링크 스타일 */
 .logo-link {
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* 링크 밑줄 제거 */
 }
-.logo-text {
-    max-height: 40px;
+
+/* 로고 이미지 스타일 */
+.logo-img {
+    max-height: 50px; /* 로고 이미지의 높이 조정 */
+    width: auto;
 }
+
+/* 브랜드 이름 텍스트 스타일 */
+.logo-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-left: 8px; /* 로고와 텍스트 사이의 간격 */
+}
+
 
 /* 로그인 버튼 */
 .login-button {
-    background-color: #0078ff;
+    background-color: #000000;
     color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 12px 12px;
+    border-radius: 20px;
     text-decoration: none;
+    text-decoration: none;
+    color: #f6f6f6; /* 기본 텍스트 색상 */
+    font-size: 15px; /* 글꼴 크기 조정 */
+    font-weight: 600; /* 글꼴 두께 조정 */
 }
 .login-button:hover {
-    background-color: #005bb5;
+    background-color: #000000;
 }
+/* 네비게이션 링크 스타일 */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+/* 네비게이션 링크 개별 스타일 */
+.nav-links a {
+    text-decoration: none;
+    color: #333; /* 기본 텍스트 색상 */
+    font-size: 18px; /* 글꼴 크기 조정 */
+    font-weight: 600; /* 글꼴 두께 조정 */
+    padding: 0px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* 호버 효과 */
+.nav-links a:hover {
+    background-color: #34E0A1; /* 녹색 배경 */
+    color: white; /* 호버 시 글자 색상 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px); /* 약간 위로 올림 */
+}
+
+/* 현재 페이지 활성화된 링크 스타일 */
+.nav-links a.active {
+    background-color: #2cb68b;
+    color: white;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .nav-links a {
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+

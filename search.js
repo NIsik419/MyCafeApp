@@ -1,11 +1,17 @@
-fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar').innerHTML = data;
         })
         .catch(error => console.error('네비게이션 바를 불러오는 중 오류 발생:', error));
+        loadSearchResults(); // DOM이 완전히 로드된 후에 실행
+    });
+        
+    
+    
     const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('q');  // 검색어 가져오기
+    const query = urlParams.get('q')?.trim();  // 검색어 가져오기
     let map;
     let openInfoWindow = null;
 
@@ -18,20 +24,27 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
 
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
+    
 
     // 검색 결과 로드 함수
     async function loadSearchResults() {
         try {
-            const response = await fetch('cafes.json');  // 카페 데이터 로드
+            console.log('Fetching cafes.json...');
+            const response = await fetch('cafes.json');
+            console.log('Response status:', response.status);
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch cafes.json');
+            }
+    
             const cafes = await response.json();
-
-            // 쿼리가 없다면 검색 결과를 표시하지 않고 메시지를 출력
+            console.log('Cafes data:', cafes);
+    
             if (!query) {
                 document.getElementById('search-results').innerHTML = "<p>검색어가 없습니다.</p>";
-                return;  // 함수 종료
+                return;
             }
-
-            // 검색 결과 필터링
+    
             const filteredCafes = cafes.filter(cafe => {
                 return (
                     (cafe.이름 && cafe.이름.toLowerCase().includes(query.toLowerCase())) ||
@@ -40,9 +53,10 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
                     (cafe.부가설명 && cafe.부가설명.toLowerCase().includes(query.toLowerCase()))
                 );
             });
-
+    
             const resultsContainer = document.getElementById('search-results');
             if (filteredCafes.length > 0) {
+                resultsContainer.innerHTML = ''; // 기존 내용 제거
                 filteredCafes.forEach(cafe => {
                     const cafeCard = document.createElement("div");
                     cafeCard.classList.add("cafe-card");
@@ -55,29 +69,27 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
                         </div>
                     `;
                     resultsContainer.appendChild(cafeCard);
-
-                    // 검색된 카페 카드 클릭 시 해당 위치로 맵 이동
+    
                     cafeCard.addEventListener('click', () => {
                         const cafePosition = { lat: cafe.위도, lng: cafe.경도 };
-                        map.panTo(cafePosition); // 해당 위치로 지도 이동
-                        map.setZoom(16); // 줌 레벨 설정
-
-                        // 해당 위치에 마커와 인포윈도우 표시
+                        map.panTo(cafePosition);
+                        map.setZoom(16);
+    
                         const marker = new google.maps.Marker({
                             position: cafePosition,
                             map: map,
                             title: cafe.이름
                         });
-                        
+    
                         const infoWindow = new google.maps.InfoWindow({
                             content: `<div><strong>${cafe.이름}</strong><br>주소: ${cafe.도로명주소}<br>사장님 소개: ${cafe.부가설명}</div>`
                         });
-
+    
                         if (openInfoWindow) {
                             openInfoWindow.close();
                         }
                         infoWindow.open(map, marker);
-                        openInfoWindow = infoWindow; // 열려 있는 인포윈도우 업데이트
+                        openInfoWindow = infoWindow;
                     });
                 });
             } else {
@@ -88,4 +100,4 @@ fetch('navbar.html')  // navbar.html 파일을 불러옵니다.
         }
     }
 
-    loadSearchResults();  // 페이지 로드 시 검색 결과 로드
+    //loadSearchResults();  // 페이지 로드 시 검색 결과 로드

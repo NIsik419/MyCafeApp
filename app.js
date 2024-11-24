@@ -19,11 +19,14 @@ async function initMap() {
         await loadKeywords();
         await loadCafes();
 
+        // 목록 표시
+        document.getElementById('recommendation-list').style.display = 'block';
     } catch (error) {
         console.error("Error initializing map:", error);
         document.getElementById('recommendation-list').innerHTML = '<p>카페 데이터를 불러오는 중 오류가 발생했습니다.</p>';
     }
 }
+
 
 // 키워드 데이터 불러오기
 async function loadKeywords() {
@@ -108,11 +111,19 @@ function createInfoWindowContent(cafe) {
         <div style="padding: 12px;">
             <h3>${cafe.이름}</h3>
             <p>주소: ${cafe.도로명주소}</p>
-            <p>${cafe.부가설명}</p>
+            <p style="
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                white-space: normal;
+            ">
+                ${cafe.부가설명|| "설명없음"}</p>
             <p><strong>키워드:</strong> ${keyword}</p>
         </div>
     `;
 }
+
 
 // 카페 카드 생성 함수
 // 카페 카드 생성 함수

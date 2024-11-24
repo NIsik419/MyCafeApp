@@ -5,68 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>검색 결과</title>
    
-    <link rel="stylesheet" href="styles.css">
-    <style>/* 검색 컨테이너 스타일 */
-        .search-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* 중앙 정렬 */
-            width: 90%;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* 검색창 폼 스타일 */
-        .search-form {
-            display: flex;
-            width: 100%;
-            margin-bottom: 10px; /* 검색 결과와 간격 */
-        }
-        
-        .search-input {
-            flex: 1;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-        }
-        
-        .search-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
-            border: 1px solid #007bff;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-        }
-        
-        /* 검색 결과 스타일 */
-        .results-container {
-            width: 90%; /* 검색 컨테이너와 너비 통일 */
-            max-width: 600px;
-            max-height: 500px;
-            overflow-y: auto;
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        </style>
+    <link rel="stylesheet" href="search.css">
+<style>.cafe-info p {
+    overflow: hidden; /* 넘치는 텍스트를 숨김 */
+    display: -webkit-box; /* 플렉스 기반 레이아웃 사용 */
+    -webkit-line-clamp: 2; /* 최대 2줄로 제한 */
+    -webkit-box-orient: vertical; /* 수직 방향으로 박스 설정 */
+    white-space: normal; /* 텍스트 줄바꿈 허용 */
+}
+</style>
 </head>
-<body>
-<div id="navbar"></div> 
-<h2>검색 결과</h2>
-
+<body class="search-results">
+    <div id="navbar"></div>
     <div class="search-container">
         <form role="search" class="search-form" onsubmit="searchCafes(event)">
-            <input type="search" id="searchInput" class="search-input" placeholder="카페를 검색하세요" required>
+            <button type="button" class="search-icon-button">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M10 2a8 8 0 015.93 13.39l4.34 4.34-1.42 1.42-4.34-4.34A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"></path>
+                </svg>
+            </button>
+            <input type="text" id="searchInput" class="search-input" placeholder="카페를 검색하세요">
             <button type="submit" class="search-button">검색</button>
         </form>
         <div id="search-results" class="results-container">
@@ -74,14 +32,25 @@
         </div>
     </div>
 
+
     <!-- 검색 결과 출력 공간 -->
     
 
 
 <!-- 구글 맵을 배경으로 사용 -->
 <div id="map"></div> 
-<script></script>
 <script src="search.js"></script>
+<script> 
+    // 검색 이벤트 처리 함수
+    function searchCafes(event) {
+        event.preventDefault();  // 기본 폼 제출을 막음
+
+        const query = document.getElementById("searchInput").value;  // 검색어 가져오기
+
+        // 검색어를 URL 쿼리 파라미터로 추가하여 다른 페이지로 이동
+        window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+    }
+</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR1iy8x5iI4tXavnNJZ3nIR6jy5ObSI3k&callback=initMap" defer></script>
 </body>
 </html>

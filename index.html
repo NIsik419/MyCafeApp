@@ -21,6 +21,97 @@
                 text-align: center;
             }
 
+            #keyword-selection {
+                text-align: center;
+                margin: 30px 0;
+            }
+
+            #keyword-options {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin: 20px 0;
+            }
+
+            .keyword-button {
+                padding: 10px 15px;
+                background-color: #e0e0e0;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            .keyword-button.selected {
+                background-color: #007bff;
+                color: white;
+            }
+
+            #confirm-keywords {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            /* 모달 기본 스타일 */
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999; /* 최상위에 표시 */
+            }
+
+            /* 모달 콘텐츠 */
+            .modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+                width: 80%;
+                max-width: 500px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 키워드 버튼 스타일 */
+            .keyword-button {
+                margin: 5px;
+                padding: 10px 15px;
+                background-color: #e0e0e0;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+
+            .keyword-button.selected {
+                background-color: #007bff;
+                color: white;
+            }
+
+            /* 확인 버튼 스타일 */
+            #confirm-keywords {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+                            
+
             .slider-container {
                 display: flex;
                 align-items: center;
@@ -102,6 +193,22 @@
 </head>
 <body>
     <div id="navbar"></div>
+    <!-- 키워드 선택 UI -->
+<!-- 키워드 선택 모달 -->
+<div id="keyword-modal" class="modal">
+    <div class="modal-content">
+        <h2>선호 키워드를 선택하세요:</h2>
+        <div id="keyword-options">
+            <button class="keyword-button" data-keyword="커피">커피</button>
+            <button class="keyword-button" data-keyword="디저트">디저트</button>
+            <button class="keyword-button" data-keyword="분위기">분위기</button>
+            <button class="keyword-button" data-keyword="아늑함">아늑함</button>
+            <button class="keyword-button" data-keyword="인테리어">인테리어</button>
+        </div>
+        <button id="confirm-keywords" disabled>확인</button>
+    </div>
+</div>
+
     <div class="video-container">
         <video autoplay muted loop id="background-video">
             <source src="202004-916894674_large.mp4" type="video/mp4">
@@ -116,21 +223,27 @@
         
         <!-- 검색 바 -->
         <div class="search-container">
-            <form class="search-form">
+            <form class="search-form" onsubmit="searchCafes(event)">
                 <button type="button" class="search-icon-button">
                     <svg viewBox="0 0 24 24" width="24" height="24">
                         <path d="M10 2a8 8 0 015.93 13.39l4.34 4.34-1.42 1.42-4.34-4.34A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"></path>
                     </svg>
                 </button>
-                <input type="text" class="search-input" placeholder="카페를 검색하세요">
+                <input type="text" id="searchInput" class="search-input" placeholder="카페를 검색하세요">
                 <button type="submit" class="search-button">검색</button>
             </form>
             
+            
         </div>
     </div>
-
+        <div id="recommendation-list">
+            <!-- 추천 카페 카드가 여기에 동적으로 추가됩니다 -->
+        </div>
     <!-- 추천 슬라이더 -->
     <div class="recommendation-slider">
+        <!-- 추천 목록 컨테이너 -->
+        
+
         <!-- 이전 버튼
         <button class="slider-btn prev-btn" aria-label="이전">
             <svg viewBox="0 0 24 24" width="24px" height="24px">
@@ -176,23 +289,65 @@
             <div class="slider" id="cafe-slider"></div>
             <button class="slider-btn next-btn" onclick="scrollRight()">&#9654;</button>
         </div>
+        
     
 </div>
+
 
 </body>
 <script src="script.js"></script>
 <script src="search.js"></script>
 <script src="app.js"></script>
 <script>
+  let selectedKeywords = [];
+let keywordsData = {}; // 키워드 데이터를 카페 ID를 기준으로 저장
+
+// 키워드 데이터 로드
+async function loadKeywords() {
+    try {
+        const response = await fetch('keywords.json'); // 키워드 JSON 파일 가져오기
+        const keywords = await response.json();
+
+        keywords.forEach(keyword => {
+            const cafeId = keyword["0"]; // 카페 ID
+            const keywordText = keyword["1"]; // 키워드 텍스트
+
+            // 키워드를 카페 ID 기준으로 그룹화
+            if (!keywordsData[cafeId]) {
+                keywordsData[cafeId] = [];
+            }
+            keywordsData[cafeId].push(keywordText);
+        });
+
+        console.log("키워드 데이터:", keywordsData); // 디버그용 출력
+    } catch (error) {
+        console.error("키워드 데이터를 불러오는 중 오류가 발생했습니다:", error);
+    }
+}
+
+
+
+// 페이지 로드 시 모달 표시
+window.onload = () => {
+    document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+};
+
     // 검색 이벤트 처리 함수
     function searchCafes(event) {
-        event.preventDefault();  // 기본 폼 제출을 막음
+    event.preventDefault(); // 기본 폼 제출을 막음
+    const query = document.getElementById("searchInput").value.trim(); // 검색어 가져오기
 
-        const query = document.getElementById("searchInput").value;  // 검색어 가져오기
+    console.log("Search Query:", query); // 검색어 확인
 
+    if (query) {
         // 검색어를 URL 쿼리 파라미터로 추가하여 다른 페이지로 이동
         window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+    } else {
+        alert("검색어를 입력하세요."); // 검색어가 없을 경우 경고 메시지 표시
     }
+}
+
+    
 </script>
 
 </html>

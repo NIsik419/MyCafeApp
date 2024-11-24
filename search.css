@@ -7,42 +7,41 @@ body {
     padding: 0;
 }
 
-::-webkit-scrollbar, 
+::-webkit-scrollbar,
 .box::-webkit-scrollbar {
     display: none; /* 모든 스크롤바 숨기기 */
 }
 
 h2 {
-    font-size: 32px;
+    font-size: 64px;
     font-weight: bold;
     color: #0a0a0a;
     text-align: center;
     margin-top: 90px;
 }
 
-
-/* 검색 컨테이너 */
-.search-container {
-    float:left;
+/* 검색 관련 스타일: .search-results 클래스 내부에서만 적용 */
+.search-results .search-container {
     display: flex;
+    float:left;
     flex-direction: column;
-    align-items: flex-start; 
-    width: 80%;
-    max-width: 400px;
-    margin: 60px auto;
+    align-items: flex-start;
+    width: 30%;
+    
+    margin: 20px 0px 0px 0px;
     padding: 80px 20px 20px 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.search-form {
+.search-results .search-form {
     display: flex;
-    width: 80%;
+     /* 컨테이너 너비에 맞춤 */
     margin-bottom: 10px;
 }
 
-.search-input {
+.search-results .search-input {
     flex: 1;
     padding: 10px;
     font-size: 16px;
@@ -50,24 +49,21 @@ h2 {
     border-radius: 4px 0 0 4px;
 }
 
-.search-button {
+.search-results .search-button {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #007bff;
     color: white;
     border: 1px solid #007bff;
-    border-radius: 0 4px 4px 0;
+    border-radius: 24px;
     cursor: pointer;
 }
 
-/* 검색 결과 */
-.results-container {
-    width: 80%;
-   
-    max-height: 700px;
+.search-results .results-container {
+    max-height: 600px;
     overflow-y: auto;
     background-color: white;
-    padding: 15px;
+    padding: 15px 0px 0px 0px;
     border-radius: 8px;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -109,7 +105,7 @@ h2 {
 }
 
 /* 카페 카드 */
-.cafe-card {
+.search-results .cafe-card {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -123,7 +119,7 @@ h2 {
     margin: 5px;
 }
 
-.cafe-card img {
+.search-results .cafe-card img {
     width: 150px;
     height: 150px;
     object-fit: cover;
@@ -131,12 +127,12 @@ h2 {
     margin-left: 15px;
 }
 
-.cafe-info {
+.search-results .cafe-info {
     flex: 1;
     text-align: left;
 }
 
-.cafe-info p {
+.search-results .cafe-info p {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -145,7 +141,7 @@ h2 {
 }
 
 /* 키워드 박스 */
-.keyword-box {
+.search-results .keyword-box {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -153,26 +149,10 @@ h2 {
     justify-content: flex-start;
 }
 
-.keyword {
+.search-results .keyword {
     background-color: #e0e0e0;
     border-radius: 12px;
     padding: 6px 12px;
     font-size: 14px;
     color: #333;
-}
-
-/* 추천 섹션 */
-.recommendation-section {
-    text-align: center;
-    margin: 20px;
-}
-
-.recommendation-list {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out; /* 부드러운 전환 효과 */
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
 }

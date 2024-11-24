@@ -5,189 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Cafe</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
     <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f5f5f5;
-                padding: 20px;
-            }
             
-
-            h2 {
-                font-size: 64px; /* 원하는 글자 크기 */
-                font-weight: bold;
-                color: #0a0a0a; /* 텍스트 색상 */
-                margin-top: 90px; /* 상단 여백 */
-                text-align: center;
-            }
-
-            #keyword-selection {
-                text-align: center;
-                margin: 30px 0;
-            }
-
-            #keyword-options {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 10px;
-                margin: 20px 0;
-            }
-
-            .keyword-button {
-                padding: 10px 15px;
-                background-color: #e0e0e0;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-            }
-
-            .keyword-button.selected {
-                background-color: #007bff;
-                color: white;
-            }
-
-            #confirm-keywords {
-                margin-top: 20px;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-            }
-            /* 모달 기본 스타일 */
-            .modal {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999; /* 최상위에 표시 */
-            }
-
-            /* 모달 콘텐츠 */
-            .modal-content {
-                background-color: white;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                width: 80%;
-                max-width: 500px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-            /* 키워드 버튼 스타일 */
-            .keyword-button {
-                margin: 5px;
-                padding: 10px 15px;
-                background-color: #e0e0e0;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-            }
-
-            .keyword-button.selected {
-                background-color: #007bff;
-                color: white;
-            }
-
-            /* 확인 버튼 스타일 */
-            #confirm-keywords {
-                margin-top: 20px;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 16px;
-            }
-                            
-
-            .slider-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-            }
-
-            .slider {
-                display: flex;
-                overflow-x: auto;
-                scroll-behavior: smooth;
-                padding: 10px;
-                gap: 20px;
-            }
-
-            .slider::-webkit-scrollbar {
-                display: none;
-            }
-
-            .slider-btn {
-                background-color: #ff6f61;
-                color: white;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-                border-radius: 50%;
-                font-size: 18px;
-            }
-
-            .cafe-card {
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 250px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 15px;
-            }
-
-            .cafe-card img {
-                width: 100%;
-                height: 160px;
-                object-fit: cover;
-                border-radius: 10px;
-            }
-
-            .cafe-info {
-                text-align: center;
-                margin-top: 10px;
-            }
-
-            .cafe-info h3 {
-                margin: 5px 0;
-                font-size: 18px;
-            }
-
-            .rating {
-                color: #ff6f61;
-                font-weight: bold;
-            }
-
-            .popular-menu {
-                font-size: 14px;
-                color: gray;
-            }
-
-            .icon-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-                margin-top: 10px;
-                font-size: 14px;
-                color: #888;
-            }
 
     </style>
 </head>
@@ -204,6 +24,9 @@
             <button class="keyword-button" data-keyword="분위기">분위기</button>
             <button class="keyword-button" data-keyword="아늑함">아늑함</button>
             <button class="keyword-button" data-keyword="인테리어">인테리어</button>
+            <button class="keyword-button" data-keyword="케이크">케이크</button>
+            <button class="keyword-button" data-keyword="마들렌">마들렌</button>
+            <button class="keyword-button" data-keyword="라떼">라떼</button>
         </div>
         <button id="confirm-keywords" disabled>확인</button>
     </div>
@@ -236,20 +59,16 @@
             
         </div>
     </div>
+    <div style="position: relative; overflow: hidden; width: 100%;">
         <div id="recommendation-list">
             <!-- 추천 카페 카드가 여기에 동적으로 추가됩니다 -->
         </div>
+    </div>
+    
+        
     <!-- 추천 슬라이더 -->
     <div class="recommendation-slider">
         <!-- 추천 목록 컨테이너 -->
-        
-
-        <!-- 이전 버튼
-        <button class="slider-btn prev-btn" aria-label="이전">
-            <svg viewBox="0 0 24 24" width="24px" height="24px">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="m10.736 20.792-8.58-8.58 8.58-8.582 1.06 1.061-6.77 6.77h16.08v1.5H5.026l6.77 6.77z"></path>
-            </svg>
-        </button> -->
 
         <div class="recommendation-container">
             <!-- 헤더 -->
@@ -299,31 +118,7 @@
 <script src="search.js"></script>
 <script src="app.js"></script>
 <script>
-  let selectedKeywords = [];
-let keywordsData = {}; // 키워드 데이터를 카페 ID를 기준으로 저장
-
-// 키워드 데이터 로드
-async function loadKeywords() {
-    try {
-        const response = await fetch('keywords.json'); // 키워드 JSON 파일 가져오기
-        const keywords = await response.json();
-
-        keywords.forEach(keyword => {
-            const cafeId = keyword["0"]; // 카페 ID
-            const keywordText = keyword["1"]; // 키워드 텍스트
-
-            // 키워드를 카페 ID 기준으로 그룹화
-            if (!keywordsData[cafeId]) {
-                keywordsData[cafeId] = [];
-            }
-            keywordsData[cafeId].push(keywordText);
-        });
-
-        console.log("키워드 데이터:", keywordsData); // 디버그용 출력
-    } catch (error) {
-        console.error("키워드 데이터를 불러오는 중 오류가 발생했습니다:", error);
-    }
-}
+  
 
 
 
@@ -331,6 +126,49 @@ async function loadKeywords() {
 window.onload = () => {
     document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
 };
+let selectedKeywords = []; // 선택된 키워드 저장
+
+// 키워드 복원 함수
+function restoreKeywords() {
+    const storedKeywords = localStorage.getItem('preferredKeywords');
+    if (storedKeywords) {
+        selectedKeywords = JSON.parse(storedKeywords); // 저장된 키워드 복원
+        console.log("Restored Keywords:", selectedKeywords);
+
+        // 선택된 키워드 버튼에 'selected' 클래스 추가
+        selectedKeywords.forEach(keyword => {
+            const button = document.querySelector(`.keyword-button[data-keyword="${keyword}"]`);
+            if (button) {
+                button.classList.add('selected');
+            }
+        });
+
+        // 확인 버튼 활성화
+        document.getElementById('confirm-keywords').disabled = selectedKeywords.length === 0;
+
+        // 모달 닫기
+        document.getElementById('keyword-modal').style.display = 'none';
+    }
+}
+
+// 키워드 저장 함수
+document.getElementById('confirm-keywords').addEventListener('click', () => {
+    if (selectedKeywords.length === 0) {
+        alert("키워드를 선택하세요!");
+        return;
+    }
+    localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords)); // 키워드 저장
+    console.log("Saved Keywords:", selectedKeywords);
+    document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
+});
+
+// 페이지 로드 시 실행
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadData(); // 데이터 로드
+    restoreKeywords(); // 키워드 복원
+    setupKeywordButtons(); // 키워드 버튼 이벤트 연결
+});
+
 
     // 검색 이벤트 처리 함수
     function searchCafes(event) {

@@ -17,7 +17,7 @@ h2 {
     font-weight: bold;
     color: #0a0a0a;
     text-align: center;
-    margin-top: 90px;
+    margin-top: 20px;
 }
 
 
@@ -116,7 +116,6 @@ h2 {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: 100%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 12px;
@@ -164,7 +163,7 @@ h2 {
 /* 추천 섹션 */
 .recommendation-section {
     text-align: center;
-    margin: 20px;
+   
 }
 
 .recommendation-list {

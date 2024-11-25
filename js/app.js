@@ -54,7 +54,8 @@ async function loadCafes() {
         const cafes = await response.json();
 
         const listContainer = document.getElementById('recommendation-list');
-        listContainer.innerHTML = '';
+        listContainer.style.display = 'block'; // 목록을 항상 표시
+        listContainer.innerHTML = ''; // 기존 내용 초기화
 
         cafes.forEach(cafe => {
             const { marker, cafeCard } = addCafeToMap(cafe);
@@ -65,6 +66,10 @@ async function loadCafes() {
     } catch (error) {
         console.error("Error loading cafes:", error);
     }
+    window.onload = () => {
+        document.getElementById('recommendation-list').style.display = 'block'; // 목록 항상 표시
+        initMap();
+}
 }
 
 // 카페를 지도에 추가하고 카드 생성
@@ -108,6 +113,8 @@ function handleMarkerClick(marker, infoWindow, cafe) {
 function createInfoWindowContent(cafe) {
     const keyword = keywordsData[cafe.이름] || "키워드 없음";
     return `
+     <img src="${cafe.썸네일이미지URL || 'image/placeholder.png'}" alt="${cafe.이름}" style="width: 100%; height: 150px; object-fit: cover;">
+
         <div style="padding: 12px;">
             <h3>${cafe.이름}</h3>
             <p>주소: ${cafe.도로명주소}</p>
@@ -119,7 +126,19 @@ function createInfoWindowContent(cafe) {
                 white-space: normal;
             ">
                 ${cafe.부가설명|| "설명없음"}</p>
-            <p><strong>키워드:</strong> ${keyword}</p>
+            <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+               style="
+                   display: inline-block; 
+                   margin-top: 10px; 
+                   padding: 4px 12px; 
+                   background-color: #007bff; 
+                   color: #fff; 
+                   text-decoration: none; 
+                   border-radius: 4px; 
+                   font-size: 16px;
+               ">
+               상세페이지 열기
+            </a>
         </div>
     `;
 }

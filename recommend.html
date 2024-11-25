@@ -28,17 +28,17 @@
             z-index: 3;
             background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
             margin:50px 10px 10px 5px;
-            padding: 20px;
-            max-width: 500px;
+            padding: 60px 24px 8px 8px;
+            
             overflow-y: auto;
             max-height: 90vh;
             border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: none; /* 기본적으로 숨김 */
+            display: block; /* 기본적으로 숨김 */
         }
     
         .recommendation-list {
-            max-width: 600px;
+            max-width: 500px;
             margin: 10px auto;
             background-color: #fff;
             pointer-events: auto; /* 클릭 가능 */
@@ -46,7 +46,7 @@
     
         .cafe-card {
             margin-bottom: 10px;
-            padding: 10px;
+            padding: 10px 16px 10px 10px;
             border: 1px solid #ddd;
             border-radius: 8px;
             cursor: pointer;
@@ -91,16 +91,20 @@
     
 
     <script>
-        function toggleRecommendationList() {
+                function toggleRecommendationList() {
             const recommendationSection = document.getElementById('cafe-list');
+            const toggleButton = document.getElementById('toggle-button');
             const isVisible = recommendationSection.style.display === 'block';
 
             if (isVisible) {
                 recommendationSection.style.display = 'none';
+                toggleButton.textContent = '목록 열기'; // 버튼 텍스트 업데이트
             } else {
                 recommendationSection.style.display = 'block';
+                toggleButton.textContent = '목록 닫기'; // 버튼 텍스트 업데이트
             }
         }
+
         // JavaScript로 navbar.html을 동적으로 불러와 페이지에 삽입
         fetch('navbar.html')
             .then(response => response.text())

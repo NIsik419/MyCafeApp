@@ -128,20 +128,6 @@
 <script src="app.js"></script>
 <script>
 
-// 검색 이벤트 처리 함수
-function searchCafes(event) {
-    event.preventDefault(); // 기본 폼 제출을 막음
-    const query = document.getElementById("searchInput").value.trim(); // 검색어 가져오기
-
-    console.log("Search Query:", query); // 검색어 확인
-
-    if (query) {
-        // 검색어를 URL 쿼리 파라미터로 추가하여 다른 페이지로 이동
-        window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
-    } else {
-        alert("검색어를 입력하세요."); // 검색어가 없을 경우 경고 메시지 표시
-    }
-}
 
 
 // 페이지 로드 시 모달 표시
@@ -185,11 +171,6 @@ document.getElementById('confirm-keywords').addEventListener('click', () => {
 });
 
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    const searchForm = document.querySelector('.search-form');
-    searchForm.addEventListener('submit', searchCafes);
-});
 
 
 // 페이지 로드 시 실행

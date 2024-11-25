@@ -30,6 +30,24 @@ function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 }
+function searchCafes(event) {
+    event.preventDefault(); // 기본 폼 제출 방지
+
+    const queryInput = document.getElementById("searchInput");
+    if (!queryInput) {
+        console.error("검색 입력 필드(#searchInput)를 찾을 수 없습니다.");
+        return;
+    }
+
+    const query = queryInput.value.trim();
+    if (query) {
+        console.log("Search Query:", query);
+        window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+    } else {
+        alert("검색어를 입력하세요.");
+    }
+}
+
 
 // 검색 결과 로드 함수
 async function loadSearchResults(query) {

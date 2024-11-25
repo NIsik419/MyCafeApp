@@ -123,6 +123,7 @@ function handleMarkerClick(marker, infoWindow) {
 // 인포윈도우 콘텐츠 생성
 function createInfoWindowContent(cafe) {
     return `
+    <img src="${cafe.썸네일이미지URL || 'image/placeholder.png'}" alt="${cafe.이름}" style="width: 100%; height: 150px; object-fit: cover;">
         <div style="padding: 12px;">
             <h3>${cafe.이름}</h3>
             <p>주소: ${cafe.도로명주소 || "주소 정보 없음"}</p>
@@ -135,6 +136,19 @@ function createInfoWindowContent(cafe) {
             ">
                 ${cafe.부가설명 || "설명 없음"}
             </p>
+            <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+               style="
+                   display: inline-block; 
+                   margin-top: 10px; 
+                   padding: 4px 12px; 
+                   background-color: #007bff; 
+                   color: #fff; 
+                   text-decoration: none; 
+                   border-radius: 4px; 
+                   font-size: 16px;
+               ">
+               상세페이지 열기
+            </a>
         </div>
     `;
 }

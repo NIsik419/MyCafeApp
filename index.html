@@ -60,6 +60,20 @@
             
         </div>
     </div>
+
+    <div class="cafe-recommendation-card">
+        <a href="recommend.html" target="_blank">
+            <img src="background_recom.jpg" alt="추천 카페 보기" class="recommendation-background">
+        </a>
+        <div class="recommendation-content">
+            <h2>☕ 추천 카페를 확인하세요 ☕</h2>
+            <p>
+                여러 카페를 탐방하고 새로운 경험을 발견해보세요. <br>
+                당신만의 완벽한 카페를 지금 만나보세요!
+            </p>
+        </div>
+    </div>
+    
     <div style="position: relative; overflow: hidden; width: 100%;">
         <h2>맞춤 추천 카페</h2>
         <div id="recommendation-list">
@@ -160,25 +174,35 @@ function restoreKeywords() {
     }
 }
 
-// 키워드 저장 함수
-document.getElementById('confirm-keywords').addEventListener('click', () => {
-    if (selectedKeywords.length === 0) {
-        alert("키워드를 선택하세요!");
-        return;
-    }
-    localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords)); // 키워드 저장
-    console.log("Saved Keywords:", selectedKeywords);
-    document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
-});
+// // 키워드 저장 함수
+// document.getElementById('confirm-keywords').addEventListener('click', () => {
+//     if (selectedKeywords.length === 0) {
+//         alert("키워드를 선택하세요!");
+//         return;
+//     }
+//     localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords)); // 키워드 저장
+//     console.log("Saved Keywords:", selectedKeywords);
+//     document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
+// });
 
 
 
 
 // 페이지 로드 시 실행
+// 페이지 로드 시 실행
 window.addEventListener('DOMContentLoaded', async () => {
-    await loadData(); // 데이터 로드
-    restoreKeywords(); // 키워드 복원
+    await loadData(); // 카페 데이터 로드
     setupKeywordButtons(); // 키워드 버튼 이벤트 연결
+
+    const savedKeywords = localStorage.getItem('preferredKeywords');
+    if (savedKeywords) {
+        // 로컬 스토리지 데이터 확인
+        console.log("Loaded Keywords from Local Storage:", JSON.parse(savedKeywords));
+        document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨김
+    } else {
+        console.log("No saved keywords found. Showing modal.");
+        document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+    }
 });
 
     

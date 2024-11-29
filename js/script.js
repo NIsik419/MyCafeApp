@@ -119,16 +119,31 @@ function setupKeywordButtons() {
     });
 }
 
-// 키워드 확인 버튼 클릭 이벤트
+// // 키워드 확인 버튼 클릭 이벤트
+// document.getElementById('confirm-keywords').addEventListener('click', () => {
+//     const filteredCafes = cafesData.filter(cafe => {
+//         const keywords = keywordsData[cafe.이름] || [];
+//         console.log("Checking Cafe:", cafe.이름, "Keywords:", keywords); // 디버깅
+//         return selectedKeywords.some(keyword => keywords.includes(keyword));
+//     });
+//     localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords));
+//     console.log("Filtered Cafes for Recommendations:", filteredCafes); // 디버깅
+//     displayRecommendations(filteredCafes); // 필터링된 데이터 전달
+//     document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
+// });
 document.getElementById('confirm-keywords').addEventListener('click', () => {
     const filteredCafes = cafesData.filter(cafe => {
         const keywords = keywordsData[cafe.이름] || [];
         console.log("Checking Cafe:", cafe.이름, "Keywords:", keywords); // 디버깅
         return selectedKeywords.some(keyword => keywords.includes(keyword));
     });
+
+    // 키워드 로컬 저장
     localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords));
-    console.log("Filtered Cafes for Recommendations:", filteredCafes); // 디버깅
-    displayRecommendations(filteredCafes); // 필터링된 데이터 전달
+    console.log("Saved Keywords to Local Storage:", selectedKeywords);
+
+    // 필터링된 데이터 전달
+    displayRecommendations(filteredCafes);
     document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
 });
 
@@ -228,7 +243,7 @@ async function displayFrequencyBasedRecommendations() {
                    display: inline-block; 
                    margin-top: 10px; 
                    padding: 4px 12px; 
-                   background-color: #007bff; 
+                   background-color: #34E0A1; 
                    color: #fff; 
                    text-decoration: none; 
                    border-radius: 4px; 
@@ -279,7 +294,7 @@ function displayRecommendations(cafes) {
                    display: inline-block; 
                    margin-top: 10px; 
                    padding: 4px 12px; 
-                   background-color: #007bff; 
+                   background-color: #34E0A1; 
                    color: #fff; 
                    text-decoration: none; 
                    border-radius: 4px; 

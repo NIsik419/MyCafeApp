@@ -49,7 +49,6 @@ function searchCafes(event) {
 }
 
 
-// 검색 결과 로드 함수
 async function loadSearchResults(query) {
     try {
         console.log('Fetching cafes.json...');
@@ -64,6 +63,13 @@ async function loadSearchResults(query) {
                 (cafe.도로명주소 && cafe.도로명주소.toLowerCase().includes(query.toLowerCase())) ||
                 (cafe.부가설명 && cafe.부가설명.toLowerCase().includes(query.toLowerCase()))
             );
+        });
+
+        // 이름을 기준으로 우선순위 정렬
+        filteredCafes.sort((a, b) => {
+            const nameMatchA = a.이름?.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+            const nameMatchB = b.이름?.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+            return nameMatchB - nameMatchA; // 이름 일치 여부로 우선순위
         });
 
         const resultsContainer = document.getElementById('search-results');
@@ -82,6 +88,7 @@ async function loadSearchResults(query) {
         console.error("검색 결과를 불러오는 중 오류가 발생했습니다:", error);
     }
 }
+
 
 // 카페를 지도에 추가하고 카드 생성
 function addCafeToMap(cafe) {

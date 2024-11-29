@@ -17,7 +17,7 @@ h2 {
     font-weight: bold;
     color: #0a0a0a;
     text-align: center;
-    margin-top: 20px;
+    margin:0px;
 }
 
 
@@ -123,27 +123,31 @@ h2 {
 }
 
 .cafe-card img {
-    width: 150px;
-    height: 150px;
+    /* width: 150px; */
+    height: 200px;
     object-fit: cover;
     border-radius: 8px;
-    margin-left: 15px;
+    margin:0px
 }
 
 .cafe-info {
     flex: 1;
-    text-align: left;
+    text-align: center;
 }
 
 .cafe-info p {
     overflow: hidden;
+    margin: 0px 10px auto;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     white-space: normal;
 }
 
-/* 키워드 박스 */
+/* 키워드 박스
 .keyword-box {
     display: flex;
     flex-wrap: wrap;
@@ -158,7 +162,7 @@ h2 {
     padding: 6px 12px;
     font-size: 14px;
     color: #333;
-}
+} */
 
 /* 추천 섹션 */
 .recommendation-section {

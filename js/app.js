@@ -131,7 +131,7 @@ function createInfoWindowContent(cafe) {
                    display: inline-block; 
                    margin-top: 10px; 
                    padding: 4px 12px; 
-                   background-color: #007bff; 
+                   background-color: #f5a536; 
                    color: #fff; 
                    text-decoration: none; 
                    border-radius: 4px; 
@@ -144,8 +144,6 @@ function createInfoWindowContent(cafe) {
 }
 
 
-// 카페 카드 생성 함수
-// 카페 카드 생성 함수
 function createCafeCard(cafe) {
     const cafeCard = document.createElement("div");
     cafeCard.classList.add("cafe-card");
@@ -156,17 +154,26 @@ function createCafeCard(cafe) {
     // 카페 카드 내용 생성
     cafeCard.innerHTML = `
         <div class="cafe-header">
-            <h3>${cafe.이름}</h3>
+            <div class="cafe-head">
+                <h3>${cafe.이름}</h3>
+            </div>
             <div class="keyword-box">${keywordBox}</div>
         </div>
         <img src="${cafe.썸네일이미지URL || 'image/placeholder.png'}" alt="${cafe.이름}" class="cafe-image" onerror="this.src='image/placeholder.png'">
         <div class="cafe-info">
-            <p>주소: ${cafe.도로명주소 || "주소 정보 없음"}</p>
-            <p>${cafe.부가설명 || "설명 없음"}</p>
+
+            <div class="tooltip-container">
+               <div class="tooltip">${cafe.도로명주소 || "주소 정보 없음"}</div>
+            </div>
+            
+            <div class="tooltip-container">
+                <div class="tooltip">${cafe.부가설명 || "설명 없음"}</div>
+            </div>
         </div>
     `;
     return cafeCard;
 }
+
 
 // 키워드 박스 생성 함수 (최대 2개 표시)
 function createKeywordBox(cafe) {

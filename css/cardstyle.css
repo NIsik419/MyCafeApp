@@ -7,29 +7,70 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    position:relative;
 }
 
-.cafe-header {
+
+.tooltip-container {
+    position: relative;
+    overflow:hidden;
+    margin: 8px 0px;
+}
+
+.tooltip {
+    background-color: #f1e9e9f3;
+    color: #000000;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 15px;
+    line-height: 1.5; /* 줄 간격 */
+    display: -webkit-box; /* Flexbox 유사 레이아웃 */
+    -webkit-box-orient: vertical; /* 세로 방향 정렬 */
+    -webkit-line-clamp: 3; /* 최대 3줄까지만 표시 */
+    overflow: hidden; /* 넘치는 내용 숨기기 */
+    text-overflow: ellipsis; /* 말줄임표 표시 */
+    white-space: normal; /* 줄바꿈 허용 */
+    font-family: "Apple SD Gothic Neo", "Apple SD Gothic", notosanskr, "Malgun Gothic", "맑은 고딕", Dotum, 돋움, sans-serif;
+}
+
+
+
+/* .cafe-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 10px;
+} */
+
+.cafe-header {
+    display: flex; /* flexbox로 두 요소를 정렬 */
+    justify-content: space-between; /* 요소 간 간격을 조정 */
+    align-items: center; /* 세로 정렬 */
+    padding: 10px; /* 적절한 패딩 */
+    gap:10px
 }
 
-.cafe-header h3 {
-    margin: 0;
+.cafe-head{
+    flex: 1; /* 제목이 차지할 공간 */
+    text-align: center; /* 제목 가운데 정렬 */
+}
+
+.cafe-head h3 {
+    margin: 10px auto;
     font-size: 20px;
     font-weight: bold;
 }
 
 .keyword-box {
-    display: flex;
-    gap: 5px;
+    display: flex; /* 키워드 나열 */
+    gap: 10px; /* 키워드 간 간격 */
+    flex-wrap: wrap; /* 키워드가 화면을 넘어가면 줄 바꿈 */
 }
 
+
 .keyword-button {
-    background-color: #007bff;
+    background-color: #f5a536;
     color: white;
     border: none;
     border-radius: 5px;

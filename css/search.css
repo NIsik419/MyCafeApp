@@ -18,6 +18,7 @@ h2 {
     color: #0a0a0a;
     text-align: center;
     margin-top: 90px;
+    
 }
 
 /* 검색 관련 스타일: .search-results 클래스 내부에서만 적용 */
@@ -45,7 +46,7 @@ h2 {
     flex: 1;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ddd;
+    border: 1px solid #ffffff;
     border-radius: 4px 0 0 4px;
 }
 
@@ -62,8 +63,10 @@ h2 {
 .search-results .results-container {
     max-height: 600px;
     overflow-y: auto;
+    width:500px;
+    margin:0px 0px;
     background-color: white;
-    padding: 15px 0px 0px 0px;
+    padding: 15px 0px 0px 10px;
     border-radius: 8px;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -112,7 +115,7 @@ h2 {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: 100%;
+    width: 90%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 12px;

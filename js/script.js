@@ -401,5 +401,20 @@ window.addEventListener('DOMContentLoaded', async () => {
     await loadData(); // 카페 데이터 로드
     setupKeywordButtons(); // 키워드 버튼 이벤트 연결
     await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
-    document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+    // 로컬 저장된 키워드 확인
+    const savedKeywords = localStorage.getItem('preferredKeywords');
+    console.log("Raw savedKeywords from localStorage:", savedKeywords); // 로컬스토리지 원본
+    console.log("Parsed savedKeywords:", JSON.parse(savedKeywords)); // 파싱된 데이터
+
+    if (savedKeywords && JSON.parse(savedKeywords).length > 0) {
+        // 저장된 키워드가 있는 경우
+        console.log("Loaded Keywords from Local Storage:", JSON.parse(savedKeywords));
+        document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨김
+        await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
+    } else {
+        // 저장된 키워드가 없는 경우
+        console.log("No saved keywords found. Showing modal.");
+        document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+    }
+    
 });

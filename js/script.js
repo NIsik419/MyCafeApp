@@ -1,80 +1,14 @@
-const cafes = [
-    {
-        "이름": "미 피아체",
-        "평점": 4.0,
-        "지역": "청담동",
-        "인기메뉴": "런치 코스, 디너 코스",
-        "리뷰수": 36455,
-        "찜수": 99,
-        "전화수": 164,
-        "이미지": "image1.jpg"
-    },
-    {
-        "이름": "파볼라",
-        "평점": 4.9,
-        "지역": "청담동",
-        "인기메뉴": "Cold 구수체, Cold 부채페펜",
-        "리뷰수": 16665,
-        "찜수": 25,
-        "전화수": 27,
-        "이미지": "image2.jpg"
-    },
-    {
-        "이름": "권숙수",
-        "평점": 4.2,
-        "지역": "청담동",
-        "인기메뉴": "점심미식상, 저녁미식상",
-        "리뷰수": 42282,
-        "찜수": 130,
-        "전화수": 166,
-        "이미지": "image3.jpg"
-    }
-    
-];
-
-// 슬라이더 요소 가져오기
-const slider = document.getElementById('cafe-slider');
-
-// 카페 카드 생성 및 추가
-cafes.forEach(cafe => {
-    const cafeCard = document.createElement('div');
-    cafeCard.classList.add('cafe-card');
-    cafeCard.innerHTML = `
-        <img src="${cafe.이미지}" alt="${cafe.이름}" onerror="this.src='image/placeholder.png'">
-        <div class="cafe-info">
-            <h3>${cafe.이름}</h3>
-            <p class="rating">${cafe.평점} ⭐</p>
-            <p>${cafe.지역}</p>
-            <p class="popular-menu">인기 메뉴: ${cafe.인기메뉴}</p>
-            <div class="icon-container">
-                <span>👁 ${cafe.리뷰수}</span>
-                <span>❤️ ${cafe.찜수}</span>
-                <span>📞 ${cafe.전화수}</span>
-            </div>
-        </div>
-    `;
-    slider.appendChild(cafeCard);
-});
-
-// 슬라이더 좌우 스크롤 함수
-function scrollLeft() {
-    slider.scrollBy({ left: -300, behavior: 'smooth' });
-}
-
-function scrollRight() {
-    slider.scrollBy({ left: 500, behavior: 'smooth' });
-}
-
 
 let selectedKeywords = [];
-  let keywordsData = {}; // 키워드 데이터를 카페 ID를 기준으로 저장
-  let cafesData = []; // 카페 데이터
+let keywordsData = {}; // 키워드 데이터를 카페 ID를 기준으로 저장
+let cafesData = []; // 카페 데이터
 
-  async function loadData() {
+// 데이터 로드 함수
+async function loadData() {
     try {
         const [keywordResponse, cafesResponse] = await Promise.all([
             fetch('keyword.json'), // 키워드 데이터
-            fetch('cafes.json') // 카페 데이터
+            fetch('cafes.json'), // 카페 데이터
         ]);
 
         const keywords = await keywordResponse.json();
@@ -88,7 +22,7 @@ let selectedKeywords = [];
             if (!keywordsData[cafeId]) {
                 keywordsData[cafeId] = [];
             }
-            keywordsData[cafeId].push(keywordText); // 키워드 추가
+            keywordsData[cafeId].push(keywordText);
         });
 
         cafesData = cafes; // 카페 데이터 저장
@@ -99,54 +33,99 @@ let selectedKeywords = [];
     }
 }
 
-loadData(); // 데이터 로드
-
-// 키워드 버튼 이벤트
+// 키워드 버튼 초기화
 function setupKeywordButtons() {
     document.querySelectorAll('.keyword-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const keyword = button.getAttribute('data-keyword');
-            if (selectedKeywords.includes(keyword)) {
-                selectedKeywords = selectedKeywords.filter(kw => kw !== keyword);
-                button.classList.remove('selected');
+        // 기존 이벤트 제거
+        const newButton = button.cloneNode(true);
+        button.replaceWith(newButton);
+
+        // 새로운 이벤트 추가
+        newButton.addEventListener('click', () => {
+            const keyword = newButton.getAttribute('data-keyword');
+            const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
+
+            if (savedKeywords.includes(keyword)) {
+                selectedKeywords = savedKeywords.filter(kw => kw !== keyword);
+                newButton.classList.remove('selected');
             } else {
-                selectedKeywords.push(keyword);
-                button.classList.add('selected');
+                selectedKeywords = [...savedKeywords, keyword];
+                newButton.classList.add('selected');
             }
-            console.log("Selected Keywords:", selectedKeywords); // 디버깅
+
+            // 로컬 스토리지 업데이트
+            localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords));
+            console.log("Updated Keywords:", selectedKeywords);
+
+            // 확인 버튼 상태 업데이트
             document.getElementById('confirm-keywords').disabled = selectedKeywords.length === 0;
         });
     });
 }
 
-// // 키워드 확인 버튼 클릭 이벤트
-// document.getElementById('confirm-keywords').addEventListener('click', () => {
-//     const filteredCafes = cafesData.filter(cafe => {
-//         const keywords = keywordsData[cafe.이름] || [];
-//         console.log("Checking Cafe:", cafe.이름, "Keywords:", keywords); // 디버깅
-//         return selectedKeywords.some(keyword => keywords.includes(keyword));
-//     });
-//     localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords));
-//     console.log("Filtered Cafes for Recommendations:", filteredCafes); // 디버깅
-//     displayRecommendations(filteredCafes); // 필터링된 데이터 전달
-//     document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
-// });
-document.getElementById('confirm-keywords').addEventListener('click', () => {
-    const filteredCafes = cafesData.filter(cafe => {
-        const keywords = keywordsData[cafe.이름] || [];
-        console.log("Checking Cafe:", cafe.이름, "Keywords:", keywords); // 디버깅
-        return selectedKeywords.some(keyword => keywords.includes(keyword));
+// 키워드 UI 상태 업데이트
+function updateKeywordButtons() {
+    const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
+    document.querySelectorAll('.keyword-button').forEach(button => {
+        const keyword = button.getAttribute('data-keyword');
+        if (savedKeywords.includes(keyword)) {
+            button.classList.add('selected');
+        } else {
+            button.classList.remove('selected');
+        }
     });
 
-    // 키워드 로컬 저장
-    localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords));
-    console.log("Saved Keywords to Local Storage:", selectedKeywords);
+    // 확인 버튼 상태 업데이트
+    document.getElementById('confirm-keywords').disabled = savedKeywords.length === 0;
+}
 
-    // 필터링된 데이터 전달
-    displayRecommendations(filteredCafes);
-    document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
+// 키워드 확인 버튼 클릭 이벤트
+document.getElementById('confirm-keywords').addEventListener('click', () => {
+    const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
+
+    if (savedKeywords.length === 0) {
+        alert("키워드를 선택하세요!");
+        return;
+    }
+
+    const filteredCafes = cafesData.filter(cafe => {
+        const keywords = keywordsData[cafe.이름] || [];
+        return savedKeywords.some(keyword => keywords.includes(keyword));
+    });
+
+    displayRecommendedCafes(); // 추천 결과 업데이트
+    document.getElementById('keyword-modal').style.display = 'none';
 });
 
+// 키워드 초기화 버튼
+document.getElementById('reset-keyword-button').addEventListener('click', () => {
+    localStorage.removeItem('preferredKeywords');
+    selectedKeywords = [];
+    updateKeywordButtons();
+    displayRecommendations([]);
+    alert("키워드가 초기화되었습니다.");
+});
+
+// 키워드 추가 버튼
+document.getElementById('add-keyword-button').addEventListener('click', () => {
+    document.getElementById('keyword-modal').style.display = 'flex';
+    setupKeywordButtons(); // 모달 내 버튼 다시 설정
+});
+
+// 초기 실행
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadData(); // 데이터 로드
+    setupKeywordButtons(); // 키워드 버튼 설정
+
+    const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
+    if (savedKeywords.length > 0) {
+        updateKeywordButtons(); // 저장된 키워드로 버튼 상태 업데이트
+        displayRecommendationsWithKeywords(savedKeywords); // 추천 결과 표시
+    } else {
+        document.getElementById('keyword-modal').style.display = 'flex';
+    }
+    
+});
 
 // 키워드 데이터를 저장할 객체
 let keywordFrequencyData = {}; // 키워드 빈도 데이터를 저장
@@ -258,9 +237,34 @@ async function displayFrequencyBasedRecommendations() {
     addScrollButtons(frequencyRecommendationList);
 }
 
+// savedKeywords 기준 추천 함수
+function recommendCafesBySavedKeywords() {
+    // 로컬 스토리지에서 키워드 가져오기
+    const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
+
+    if (savedKeywords.length === 0) {
+        console.log("추천할 키워드가 없습니다.");
+        return [];
+    }
+
+    // 저장된 키워드와 카페 데이터 비교하여 추천 필터링
+    const recommendedCafes = cafesData.filter(cafe => {
+        const keywords = keywordsData[cafe.이름] || [];
+        return savedKeywords.some(keyword => keywords.includes(keyword));
+    });
+
+    console.log("Recommended Cafes:", recommendedCafes);
+    return recommendedCafes;
+}
+
+// 추천 결과를 화면에 표시
+function displayRecommendedCafes() {
+    const recommendedCafes = recommendCafesBySavedKeywords();
+    displayRecommendations(recommendedCafes); // 추천된 카페 데이터를 화면에 표시
+}
 
 function displayRecommendations(cafes) {
-    
+
     const recommendationList = document.getElementById("recommendation-list");
     recommendationList.innerHTML = ""; // 기존 내용 초기화
     recommendationList.style.display = "flex"; // 가로 스크롤을 위해 flex 레이아웃
@@ -385,36 +389,3 @@ function addScrollButtons(container) {
     container.parentElement.appendChild(leftButton);
     container.parentElement.appendChild(rightButton);
 }
-
-
-
-// // 페이지 로드 시 실행
-// window.addEventListener('DOMContentLoaded', async () => {
-//     await loadData(); // 데이터 로드
-//     setupKeywordButtons(); // 키워드 버튼 이벤트 연결
-//     document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
-// });
-
-
-// 페이지 로드 시 실행
-window.addEventListener('DOMContentLoaded', async () => {
-    await loadData(); // 카페 데이터 로드
-    setupKeywordButtons(); // 키워드 버튼 이벤트 연결
-    await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
-    // 로컬 저장된 키워드 확인
-    const savedKeywords = localStorage.getItem('preferredKeywords');
-    console.log("Raw savedKeywords from localStorage:", savedKeywords); // 로컬스토리지 원본
-    console.log("Parsed savedKeywords:", JSON.parse(savedKeywords)); // 파싱된 데이터
-
-    if (savedKeywords && JSON.parse(savedKeywords).length > 0) {
-        // 저장된 키워드가 있는 경우
-        console.log("Loaded Keywords from Local Storage:", JSON.parse(savedKeywords));
-        document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨김
-        await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
-    } else {
-        // 저장된 키워드가 없는 경우
-        console.log("No saved keywords found. Showing modal.");
-        document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
-    }
-    
-});

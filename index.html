@@ -44,6 +44,10 @@
     <div class="content">
         <!-- 제목 -->
         <h2 class="main-title">어떤 카페를 원하시나요?</h2>
+        <div class="keyword-management">
+            <button id="add-keyword-button">키워드 추가</button>
+            <button id="reset-keyword-button">키워드 초기화</button>
+        </div>
         
         <!-- 검색 바 -->
         <div class="search-container">
@@ -145,11 +149,6 @@
 
 
 
-// 페이지 로드 시 모달 표시
-window.onload = () => {
-    document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
-};
-let selectedKeywords = []; // 선택된 키워드 저장
 
 // 키워드 복원 함수
 function restoreKeywords() {
@@ -174,42 +173,46 @@ function restoreKeywords() {
     }
 }
 
-// // 키워드 저장 함수
-// document.getElementById('confirm-keywords').addEventListener('click', () => {
-//     if (selectedKeywords.length === 0) {
-//         alert("키워드를 선택하세요!");
-//         return;
-//     }
-//     localStorage.setItem('preferredKeywords', JSON.stringify(selectedKeywords)); // 키워드 저장
-//     console.log("Saved Keywords:", selectedKeywords);
-//     document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨기기
-// });
 
+// 페이지 로드 시 실행
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadData(); // 카페 데이터 로드
+    setupKeywordButtons(); // 키워드 버튼 이벤트 연결
+    await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
+    
+    // 로컬 저장된 키워드 확인
+    // 로컬 저장된 키워드 확인
+    const savedKeywords = localStorage.getItem('preferredKeywords');
+    console.log("Raw savedKeywords from localStorage:", savedKeywords); // 로컬스토리지 원본
 
+    if (savedKeywords) {
+        const parsedKeywords = JSON.parse(savedKeywords); // JSON 문자열을 배열로 변환
+        console.log("Parsed savedKeywords:", parsedKeywords); // 파싱된 데이터
 
+        if (parsedKeywords.length > 0) {
 
-// // 페이지 로드 시 실행
-// // 페이지 로드 시 실행
-// window.addEventListener('DOMContentLoaded', async () => {
-//     await loadData(); // 카페 데이터 로드
-//     setupKeywordButtons(); // 키워드 버튼 이벤트 연결
+            document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨김
+            await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
 
-//     // 로컬 저장된 키워드 확인
-//     const savedKeywords = localStorage.getItem('preferredKeywords');
-//     console.log("Raw savedKeywords from localStorage:", savedKeywords); // 로컬스토리지 원본
-//     console.log("Parsed savedKeywords:", JSON.parse(savedKeywords)); // 파싱된 데이터
+            // 저장된 키워드로 카페 필터링
+            const filteredCafes = cafesData.filter(cafe => {
+                const keywords = keywordsData[cafe.이름] || [];
+                return parsedKeywords.some(keyword => keywords.includes(keyword));
+            });
 
-//     if (savedKeywords && JSON.parse(savedKeywords).length > 0) {
-//         // 저장된 키워드가 있는 경우
-//         console.log("Loaded Keywords from Local Storage:", JSON.parse(savedKeywords));
-//         document.getElementById('keyword-modal').style.display = 'none'; // 모달 숨김
-//         await sortCafesByKeywordFrequency(); // 키워드 빈도 기준으로 카페 정렬 후 추천
-//     } else {
-//         // 저장된 키워드가 없는 경우
-//         console.log("No saved keywords found. Showing modal.");
-//         document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
-//     }
-// });
+            // 필터링된 데이터 전달
+            displayRecommendations(filteredCafes);
+        } else {
+            document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+        }
+    } else {
+        console.log("No saved keywords found in Local Storage.");
+        document.getElementById('keyword-modal').style.display = 'flex'; // 모달 표시
+    }
+
+    
+});
+
 
 
     

@@ -155,23 +155,71 @@ function createCafeCard(cafe) {
     cafeCard.innerHTML = `
         <div class="cafe-header">
             <div class="cafe-head">
-                <h3>${cafe.이름}</h3>
+                <h3 class="cafe-title">
+                    ${cafe.이름}
+                    <i class="fas fa-bookmark bookmark-icon" 
+                       style="color: ${isBookmarked(cafe.이름) ? "#0073e6" : "#ccc"}"
+                       title="북마크"></i>
+                </h3>
             </div>
             <div class="keyword-box">${keywordBox}</div>
         </div>
         <img src="${cafe.썸네일이미지URL || 'image/placeholder.png'}" alt="${cafe.이름}" class="cafe-image" onerror="this.src='image/placeholder.png'">
         <div class="cafe-info">
-
             <div class="tooltip-container">
-               <div class="tooltip">${cafe.도로명주소 || "주소 정보 없음"}</div>
+                <div class="tooltip">${cafe.도로명주소 || "주소 정보 없음"}</div>
             </div>
-            
             <div class="tooltip-container">
                 <div class="tooltip">${cafe.부가설명 || "설명 없음"}</div>
             </div>
         </div>
     `;
+
+    // 북마크 아이콘 클릭 이벤트 추가
+    const bookmarkIcon = cafeCard.querySelector(".bookmark-icon");
+    bookmarkIcon.addEventListener("click", () => {
+        if (isBookmarked(cafe.이름)) {
+            removeBookmark(cafe.이름);
+            bookmarkIcon.style.color = "#ccc";
+        } else {
+            addBookmark({
+                이름: cafe.이름,
+                썸네일이미지URL: cafe.썸네일이미지URL,
+                도로명주소: cafe.도로명주소,
+                부가설명: cafe.부가설명,
+            });
+            bookmarkIcon.style.color = "#0073e6";
+        }
+    });
+
     return cafeCard;
+}
+
+
+// 북마크 추가 함수
+function addBookmark(cafe) {
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    if (!bookmarks.some((bookmark) => bookmark.이름 === cafe.이름)) {
+        bookmarks.push(cafe);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        alert(`${cafe.이름}이(가) 북마크에 추가되었습니다.`);
+    } else {
+        alert("이미 북마크에 추가된 카페입니다.");
+    }
+}
+
+// 북마크 제거 함수
+function removeBookmark(cafeName) {
+    let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    bookmarks = bookmarks.filter((bookmark) => bookmark.이름 !== cafeName);
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    alert("북마크에서 제거되었습니다.");
+}
+
+// 북마크 상태 확인 함수
+function isBookmarked(cafeName) {
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    return bookmarks.some((bookmark) => bookmark.이름 === cafeName);
 }
 
 

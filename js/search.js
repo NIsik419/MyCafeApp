@@ -143,7 +143,7 @@ function createInfoWindowContent(cafe) {
             ">
                 ${cafe.부가설명 || "설명 없음"}
             </p>
-            <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+            <a href="${ cafe.상세페이지URL||cafe.홈페이지URL ||'#'}" target="_blank" 
                style="
                    display: inline-block; 
                    margin-top: 10px; 

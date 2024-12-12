@@ -34,8 +34,23 @@ function createBookmarkCard(bookmark) {
         <p class="truncate-text">${bookmark.부가설명 || "설명 없음"}</p>
     `;
 
+    // 클릭 시 상세 페이지로 이동
+    bookmarkCard.addEventListener("click", (e) => {
+        // 카드 클릭 시 삭제 버튼 클릭 이벤트는 제외
+        if (e.target.classList.contains("remove-bookmark-button")) {
+            return;
+        }
+
+        if (bookmark.상세페이지URL) {
+            window.location.href = bookmark.상세페이지URL; // 상세 페이지로 이동
+        } else {
+            alert("상세 페이지 URL이 없습니다."); // URL이 없는 경우 경고
+        }
+    });
+
     // 북마크 제거 버튼
     bookmarkCard.querySelector(".remove-bookmark-button").addEventListener("click", (e) => {
+        e.stopPropagation(); // 부모 클릭 이벤트 차단
         const cafeName = e.target.dataset.name;
         removeBookmark(cafeName);
         loadBookmarks(); // 목록 새로고침

@@ -217,7 +217,7 @@ async function displayFrequencyBasedRecommendations() {
                 <h3 style="margin: 8px 0;">${cafe.이름}</h3>
                 <p style="font-size: 14px; color: #555;">${cafe.도로명주소 || "주소 없음"}</p>
                 <p style="font-size: 13px; color: #999;">키워드 빈도 합계: ${cafe.totalFrequency}</p>
-                <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+                <a href="${cafe.상세페이지URL||cafe.홈페이지URL || '#'}" target="_blank" 
                style="
                    display: inline-block; 
                    margin-top: 10px; 
@@ -257,14 +257,7 @@ function recommendCafesBySavedKeywords() {
     return recommendedCafes;
 }
 
-// 추천 결과를 화면에 표시
-function displayRecommendedCafes() {
-    const recommendedCafes = recommendCafesBySavedKeywords();
-    displayRecommendations(recommendedCafes); // 추천된 카페 데이터를 화면에 표시
-}
-
 function displayRecommendations(cafes) {
-
     const recommendationList = document.getElementById("recommendation-list");
     recommendationList.innerHTML = ""; // 기존 내용 초기화
     recommendationList.style.display = "flex"; // 가로 스크롤을 위해 flex 레이아웃
@@ -278,7 +271,10 @@ function displayRecommendations(cafes) {
         return;
     }
 
-    cafes.forEach(cafe => {
+    // 배열 섞기 (Fisher-Yates Shuffle Algorithm)
+    const shuffledCafes = shuffleArray(cafes);
+
+    shuffledCafes.forEach(cafe => {
         const cafeCard = document.createElement("div");
         cafeCard.classList.add("cafe-card");
         cafeCard.style.flex = "0 0 auto"; // 카드가 고정된 너비로 정렬되도록 설정
@@ -293,7 +289,7 @@ function displayRecommendations(cafes) {
             <h3 style="margin: 8px 0;">${cafe.이름}</h3>
             <p style="font-size: 14px; color: #555;">${cafe.도로명주소 || "주소 없음"}</p>
             <p style="font-size: 13px; color: #999;">카테고리: ${cafe.카테고리 || "카테고리 없음"}</p>
-            <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+            <a href="${cafe.상세페이지URL||cafe.홈페이지URL || '#'}" target="_blank" 
                style="
                    display: inline-block; 
                    margin-top: 10px; 
@@ -308,13 +304,24 @@ function displayRecommendations(cafes) {
             </a>
         </div>
     `;
-    
+
         recommendationList.appendChild(cafeCard);
     });
 
     // 좌우 스크롤 버튼 추가
     addScrollButtons(recommendationList);
 }
+
+// 배열 섞기 함수 (Fisher-Yates Shuffle Algorithm)
+function shuffleArray(array) {
+    const shuffled = [...array]; // 원본 배열을 복사
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+    }
+    return shuffled;
+}
+
 function addScrollButtons(container) {
     const leftButton = document.createElement("button");
     leftButton.innerHTML = "&#9664;"; // ◄ 버튼

@@ -126,7 +126,7 @@ function createInfoWindowContent(cafe) {
                 white-space: normal;
             ">
                 ${cafe.부가설명|| "설명없음"}</p>
-            <a href="${cafe.홈페이지URL || cafe.상세페이지URL||'#'}" target="_blank" 
+            <a href="${cafe.상세페이지URL || cafe.홈페이지URL||'#'}" target="_blank" 
                style="
                    display: inline-block; 
                    margin-top: 10px; 
@@ -187,6 +187,7 @@ function createCafeCard(cafe) {
                 썸네일이미지URL: cafe.썸네일이미지URL,
                 도로명주소: cafe.도로명주소,
                 부가설명: cafe.부가설명,
+                상세페이지URL: cafe.상세페이지URL,
             });
             bookmarkIcon.style.color = "#0073e6";
         }

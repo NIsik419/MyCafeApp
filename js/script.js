@@ -93,7 +93,7 @@ document.getElementById('confirm-keywords').addEventListener('click', () => {
         return savedKeywords.some(keyword => keywords.includes(keyword));
     });
 
-    displayRecommendedCafes(); // 추천 결과 업데이트
+    displayRecommendations(filteredCafes); // 추천 결과 업데이트
     document.getElementById('keyword-modal').style.display = 'none';
 });
 
@@ -120,7 +120,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     const savedKeywords = JSON.parse(localStorage.getItem('preferredKeywords') || '[]');
     if (savedKeywords.length > 0) {
         updateKeywordButtons(); // 저장된 키워드로 버튼 상태 업데이트
-        displayRecommendationsWithKeywords(savedKeywords); // 추천 결과 표시
+        displayRecommendations(savedKeywords); // 추천 결과 표시
     } else {
         document.getElementById('keyword-modal').style.display = 'flex';
     }
